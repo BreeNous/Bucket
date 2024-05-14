@@ -2,9 +2,9 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
 // Create Project model and datatypes, including the user_id foreign key.
-class Project extends Model {}
+class Bucketlist extends Model {}
 
-Project.init(
+Bucketlist.init(
   {
     id: {
       type: DataTypes.INTEGER,
