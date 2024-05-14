@@ -1,10 +1,11 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const { Project } = require('../../models');
 
 // Create Project model and datatypes, including the user_id foreign key.
 class Bucketlist extends Model {}
 
-Bucketlist.init(
+Project.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -12,21 +13,21 @@ Bucketlist.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    item: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
     },
-    date_created: {
-      type: DataTypes.DATE,
+    category: {
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: DataTypes.NOW,
     },
-    needed_funding: {
-      type: DataTypes.FLOAT,
+     completed: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false
     },
     user_id: {
       type: DataTypes.INTEGER,
