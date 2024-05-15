@@ -2,31 +2,26 @@ const router = require('express').Router();
 const { BucketListItem } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+//create bucketlist item
+
 router.post('/', withAuth, async (req, res) => {
   try {
     const newBucketListItem = await BucketListItem.create({
       ...req.body,
       user_id: req.session.user_id,
     });
-
-const router = require('express').Router();
-const { Project } = require('../../models');
-const withAuth = require('../../utils/auth');;
-
-// If a POST request is made to /api/projects, a new project is created. If there is an error, the function returns with a 400 error. 
-router.post('/', async (req, res) => {
-  try {
-    const newProject = await Project.create({
-      ...req.body,
-      user_id: req.session.user_id,
-    });
+if (!newBucketListItem) {
+      res.status(404).json({ message: 'No BucketListItem was created!' });
+      return;
+    }
 
     res.status(200).json(newBucketListItem);
-
   } catch (err) {
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
 });
+
+
 
 
 // If a DELETE request is made to /api/projects/:id, that project is deleted. 
