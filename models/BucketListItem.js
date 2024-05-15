@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-const { Project } = require('../../models');
+
 
 // Create Project model and datatypes, including the user_id foreign key.
 class BucketlistItem extends Model {}
