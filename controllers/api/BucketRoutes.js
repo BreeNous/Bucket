@@ -1,6 +1,13 @@
-//favorited bl items. call to find in bucket lsit where id = to get favorites
+const router = require('express').Router();
+const { BucketListItem } = require('../../models');
+const withAuth = require('../../utils/auth');
 
-//users bucket list. call based on user id
+router.post('/', withAuth, async (req, res) => {
+  try {
+    const newBucketListItem = await BucketListItem.create({
+      ...req.body,
+      user_id: req.session.user_id,
+    });
 
 const router = require('express').Router();
 const { Project } = require('../../models');
@@ -14,28 +21,31 @@ router.post('/', async (req, res) => {
       user_id: req.session.user_id,
     });
 
-    res.status(200).json(newProject);
+    res.status(200).json(newBucketListItem);
+
   } catch (err) {
     res.status(400).json(err);
   }
 });
 
+
 // If a DELETE request is made to /api/projects/:id, that project is deleted. 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth, async (req, res) => {
   try {
-    const projectData = await Project.destroy({
+    const BucketListItemData = await BucketListItem.destroy({
+      
       where: {
         id: req.params.id,
         user_id: req.session.user_id,
       },
     });
 
-    if (!projectData) {
-      res.status(404).json({ message: 'No project found with this id!' });
+    if (!BucketListItemData) {
+      res.status(404).json({ message: 'No BucketListItem found with this id!' });
       return;
     }
 
-    res.status(200).json(projectData);
+    res.status(200).json(BucketListItemData);
   } catch (err) {
     res.status(500).json(err);
   }
