@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucket</title>
+</head>
+
+<body id="mainBody">
+<!--Main title-->
+    <header>
+        <h1>Bucket</h1>
+        <!--Title statement-->
+        <h4>Life is short, but your bucket list shouldn't be. It's time you started doing the things you've set aside for later because later isn't garunteed. Get started with Bucket and make every moment count.</h4>
+    </header>
+
+<!--Section that contains the login/ logout and go to profile buttons-->
+<!-- Need to verify that the value User.name is correct (look in User.js)-->
+    <nav>
+        {{#if logged_in}}
+        <h5>Welcome back {{User.name}}</h5>
+        <a href="/profile" class="waves-effect waves-light btn"><button>Go to profile</button></a>
+        <!--Need to add functionality to log out if logout is pressed (maybe has something to do with userRoutes.js?)-->
+        <button id="logOutButton" class="waves-effect waves-light btn">Log out</button></a>
+        {{#else }}
+        <a href="/login" class="waves-effect waves-light btn"><button>Login / Sign up</button></a>
+        {{/if}}
+    </nav>
+
+</body>
+</html>
