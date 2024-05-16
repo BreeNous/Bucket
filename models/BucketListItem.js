@@ -7,12 +7,6 @@ class BucketlistItem extends Model {}
 
 BucketlistItem.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     item: {
       type: DataTypes.STRING,
       allowNull: false,
