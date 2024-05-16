@@ -10,20 +10,16 @@
 
     <form class="form new-project-form">
       <div class="form-group">
-        <label for="bucketlistitems-name">Bucket List Item:</label>
-        <input class="form-input" type="text" id="project-name" name="project-name" />
-      </div>
-      <div class="form-group">
         <label for="bucketlistitems-item">Item:</label>
-        <input class="form-input" type="text" id="project-funding" name="project-funding" />
+        <input class="form-input" type="text" id="bucketlistitem-item" name="project-funding" />
       </div>
       <div class="form-group">
         <label for="bucketlistitems-category">Category:</label>
-        <textarea class="form-input" id="project-desc" name="project-desc"></textarea>
+        <textarea class="form-input" id="bucketlistitem-category" name="project-desc"></textarea>
       </div>
     <div class="form-group">
         <label for="bucketlistitems-desc">Description:</label>
-        <textarea class="form-input" id="project-desc" name="project-desc"></textarea>
+        <textarea class="form-input" id="bucketlistitem-desc" name="project-desc"></textarea>
     </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary">Create</button>
@@ -38,10 +34,13 @@
     {{#each bucketlistitems as |BucketListItem|}}
     <div class="row mb-2">
       <div class="col-md-8">
-        <h4><a href="/User/{{user.id}}">{{BucketListItem.name}}</a></h4>
+        <h4>{{BucketListItem.item}}</h4>
+        <p>Category: {{BucketListItem.category}}</p>
+        <p>Description: {{BucketListItem.description}}</p>
       </div>
       <div class="col-md-4">
-        <button class="btn btn-sm btn-danger" data-id="{{project.id}}">DELETE</button>
+        {{!-- <button class="btn btn-sm btn-danger" data-id="{{BucketListItem_id}}">UPDATE</button> --}}
+        <button class="btn btn-sm btn-danger" data-id="{{BucketListItem.id}}">DELETE</button>
       </div>
     </div>
     {{/each}}
@@ -49,4 +48,4 @@
   {{/if}}
 </div>
 
-<script src="./public/js/profile.js"></script>
+<script src="/js/profile.js"></script>
