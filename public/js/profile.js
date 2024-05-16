@@ -25,25 +25,55 @@ const newFormHandler = async (event) => {
 };
 
 
-// const updateButtons = document.querySelectorAll('.update-button');
-// updateButtons.forEach(button => {
-//     button.addEventListener('click', updateButtonHandler);
-// });
-// function updateButtonHandler(event) {
-//     // Retrieve the element to be updated
-//     const elementToUpdate = event.target.parentElement;
+const updateFormHandler = async (event) => {
+  event.preventDefault();
 
-//     // Update the content or style of the element
-//     elementToUpdate.textContent = "Updated content"; // Example update operation
+  // Get the item ID you want to update
+  const id = document.querySelector('#update-item-id').value.trim();
 
-//     // You can perform any other update operations here as needed
-// }
+  // Fetch the current data for the item
+  const response = await fetch(`/api/bucket/${id}`, {
+    method: 'GET',
+  });
 
-// // Example usage:
-// const updateButtons = document.querySelectorAll('.update-button');
-// updateButtons.forEach(button => {
-//     button.addEventListener('click', updateButtonHandler);
-// });
+  if (response.ok) {
+    const itemData = await response.json();
+
+    // Populate form fields with current data
+    document.querySelector('#update-bucketlistitem-item').value = itemData.item;
+    document.querySelector('#update-bucketlistitem-category').value = itemData.category;
+    document.querySelector('#update-bucketlistitem-desc').value = itemData.description;
+
+    // Listen for form submission
+    const updateForm = document.querySelector('#update-form');
+    updateForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const updatedItem = document.querySelector('#update-bucketlistitem-item').value.trim();
+      const updatedCategory = document.querySelector('#update-bucketlistitem-category').value.trim();
+      const updatedDescription = document.querySelector('#update-bucketlistitem-desc').value.trim();
+
+      if (updatedItem && updatedCategory && updatedDescription) {
+        const updateResponse = await fetch(`/api/bucket/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify({ item: updatedItem, category: updatedCategory, description: updatedDescription }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (updateResponse.ok) {
+          document.location.replace('/profile');
+        } else {
+          alert('Failed to update project');
+        }
+      }
+    });
+  } else {
+    alert('Failed to fetch item data');
+  }
+};
+
 
 
 const delButtonHandler = async (event) => {
