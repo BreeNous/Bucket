@@ -21,8 +21,8 @@
         <h5>Welcome back {{User.name}}</h5>
         <a href="/profile" class="waves-effect waves-light btn"><button>Go to profile</button></a>
         <!--Need to add functionality to log out if logout is pressed (maybe has something to do with userRoutes.js?)-->
-        <button id="logOutButton" class="waves-effect waves-light btn">Log out</button></a>
-        {{#else }}
+        <button id="logOutButton" class="waves-effect waves-light btn">Log out</button>
+        {{else}}
         <a href="/login" class="waves-effect waves-light btn"><button>Login / Sign up</button></a>
         {{/if}}
     </nav>
