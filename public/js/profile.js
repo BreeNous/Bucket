@@ -50,6 +50,7 @@ const updateButtonHandler = async (event) => {
   }
 };
 
+// function to update bucketlist item
 const updateFormHandler = async (event) => {
   event.preventDefault();
 
@@ -76,7 +77,7 @@ const updateFormHandler = async (event) => {
 };
 
 
-
+// function to delete bucketlist item
 const delButtonHandler = async (event) => {
   if (event.target.hasAttribute('data-id')) {
     const id = event.target.getAttribute('data-id');
@@ -93,6 +94,7 @@ const delButtonHandler = async (event) => {
   }
 };
 
+// event listeners
 document
   .querySelector('.new-project-form')
   .addEventListener('submit', newFormHandler);
