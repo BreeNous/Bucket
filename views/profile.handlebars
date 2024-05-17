@@ -39,8 +39,7 @@
         <p>Description: {{BucketListItem.description}}</p>
       </div>
       <div class="col-md-4">
-        {{!-- <button class="btn btn-sm btn-danger" data-id="{{BucketListItem_id}}">UPDATE</button> --}}
-        <button class="btn btn-sm btn-warning" data-id="{{BucketListItem.id}}" id="updateButton">UPDATE</button>
+        <button class="btn btn-sm btn-warning" data-id="{{BucketListItem.id}}">UPDATE</button>
         <button class="btn btn-sm btn-danger" data-id="{{BucketListItem.id}}">DELETE</button>
       </div>
     </div>
@@ -48,5 +47,26 @@
   </div>
   {{/if}}
 </div>
+
+<!-- Update form -->
+<form id="update-form" style="display:none;" class="mt-4">
+  <h3>Update Bucket List Item:</h3>
+  <div class="form-group">
+    <label for="update-bucketlistitem-item">Item:</label>
+    <input class="form-input" type="text" id="update-bucketlistitem-item" />
+  </div>
+  <div class="form-group">
+    <label for="update-bucketlistitem-category">Category:</label>
+    <textarea class="form-input" id="update-bucketlistitem-category"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="update-bucketlistitem-desc">Description:</label>
+    <textarea class="form-input" id="update-bucketlistitem-desc"></textarea>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit Update</button>
+  </div>
+</form>
+
 
 <script src="/js/profile.js"></script>
