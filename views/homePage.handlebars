@@ -9,7 +9,7 @@
         <h4 style="text-align: center; font-size: 1.5em; font-weight: bold;"><span class="grey-text text-darken-4">Life is short, so your bucket list shouldn't be. It's time you started doing the things you've set aside for later because later isn't guaranteed. Get started with Bucket and make every moment count.</span></h4>
         <div style="text-align: center;">
             {{#if logged_in}}
-            <h5>Welcome back {{User.name}}</h5>
+            <h5>Welcome back {{name}}</h5>
             <a href="/profile" class="waves-effect waves-light btn">Continue to Bucket</a>
             <button id="logOutButton" class="waves-effect waves-light btn">Log out</button>
             {{else}}
@@ -22,4 +22,3 @@
         {{/if}}
     </div>
 
-<span class="white-text">Login</span>
