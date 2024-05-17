@@ -22,6 +22,7 @@ const loginFormHandler = async (event) => {
   }
 };
 
+// sign up form handler to get user data.
 const signupFormHandler = async (event) => {
   event.preventDefault();
 
@@ -29,6 +30,7 @@ const signupFormHandler = async (event) => {
   const email = document.querySelector('#email-signup').value.trim();
   const password = document.querySelector('#password-signup').value.trim();
 
+// if requirements met, create user
   if (name && email && password) {
     const response = await fetch('/api/users', {
       method: 'POST',
