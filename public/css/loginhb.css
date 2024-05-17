@@ -16,3 +16,15 @@
   .col.s12 .card-panel {
     height: 100%;
   }
+
+  #update-form {
+    left: 25%;
+    top: 25%;
+    display: block;
+    position: absolute;
+    background: white;
+    padding: 5%;
+  }
+
+  #update-bucketlistitem-item {
+color: black !important;  }

@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     const BucketListItems = BucketListItemData.map((BucketListItem) => BucketListItem.get({ plain: true }));
 
     // Pass serialized data and session flag into template
-    res.render('homepage', { 
+    res.render('homePage', { 
       BucketListItems, 
       logged_in: req.session.logged_in 
     });
