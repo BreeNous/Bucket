@@ -31,6 +31,7 @@ const newFormHandler = async (event) => {
 const updateButtonHandler = async (event) => {
   if (event.target.hasAttribute("data-id")) {
     const id = event.target.getAttribute("data-id");
+    localStorage.setItem('imlazy', id)
 
     // Fetch the current data for the item (optional, can skip if not needed)
     const response = await fetch(`/api/bucket/${id}`, {
@@ -60,8 +61,8 @@ const updateButtonHandler = async (event) => {
 // function to update bucketlist item
 const updateFormHandler = async (event) => {
    event.preventDefault();
-
-  const id = document.querySelector("#update-item-id").value.trim();
+ const id = localStorage.getItem('imlazy')
+  
   const updatedItem = document
     .querySelector("#update-bucketlistitem-item")
     .value.trim();
@@ -124,3 +125,7 @@ document.querySelector("#delete").addEventListener("click", delButtonHandler);
 document
   .querySelector("#update")
   .addEventListener("click", updateButtonHandler);
+
+document
+  .querySelector("#update-form")
+  .addEventListener("submit", updateFormHandler);
