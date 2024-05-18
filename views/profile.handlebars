@@ -1,92 +1,95 @@
-
 <main class="orange lighten-3">
-  <header class="row valign-wrapper">
-      <div class="col s6 valign-wrapper">
-          <h2 class="cyan-text text-darken-3">Bucket</h2>
-      </div>
-      <div class="col s3 valign-wrapper">
-          <h6 class="cyan-text text-darken-3 text">Welcome back {{name}}</h6>
-      </div>
-      <div class="col s2 valign-wrapper">
-        <a href="views/homePage" class="waves-effect waves-light btn grey darken-4"><span class="orange-text text-lighten-3">Home</span></a>
-      </div>
+  <header class="row valign-wrapper" style="margin-bottom: 0;">
+    <div class="col s6 valign-wrapper">
+      <h2 class="cyan-text text-darken-3">Bucket</h2>
+    </div>
+    <div class="col s3 valign-wrapper">
+      <h6 class="cyan-text text-darken-3">Welcome back, {{name}}</h6>
+    </div>
+    <div class="col s3 valign-wrapper" style="text-align: right;">
+      <a href="views/homePage" class="waves-effect waves-light btn grey darken-4">
+        <span class="orange-text text-lighten-3">Home</span>
+      </a>
+    </div>
   </header>
 
-
-  {{!--This is the bucket list--}}
-  <div class="row">
+  <div class="row content">
     <div class="col s8">
-      <div class="card-panel" style="background-color: rgba(255, 255, 255, 0.75);"> 
-
+      <div class="card-panel">
         {{#if bucketlistitems.length}}
-        <div class="col-md-6 project-list">
           <h4>My Bucket List:</h4>
           {{#each bucketlistitems as |BucketListItem|}}
-          <div class="row mb-2">
-            <div class="col-md-8">
-            <h5>{{BucketListItem.item}}</h5>
-            <p>Category: {{BucketListItem.category}}</p>
-            <p>Description: {{BucketListItem.description}}</p>
-          </div>
-          <div class="col-md-4">
-            <button id= 'update' class="btn btn-sm btn-warning" data-id="{{BucketListItem.id}}">UPDATE</button>
-            <button id= 'delete' class="btn btn-sm btn-danger" data-id="{{BucketListItem.id}}">DELETE</button>
-          </div>
-        </div>
-        {{/each}}
+            <div class="row mb-2">
+              <div class="col s8">
+                <h5>{{BucketListItem.item}}</h5>
+                <p>Category: {{BucketListItem.category}}</p>
+                <p>Description: {{BucketListItem.description}}</p>
+                <p>
+                  <label>
+                    <input type="checkbox" />
+                    <span>Completed?</span>
+                  </label>
+                </p>
+              </div>
+              <div class="col s4" style="display: flex; flex-direction: column; gap: 10px;">
+                <button id="update" class="waves-effect waves-light btn grey darken-4" data-id="{{BucketListItem.id}}">
+                  <span class="orange-text text-lighten-3">Update</span>
+                </button>
+                <button id="delete" class="waves-effect waves-light btn grey darken-4" data-id="{{BucketListItem.id}}">
+                  <span class="orange-text text-lighten-3">Delete</span>
+                </button>
+              </div>
+            </div>
+          {{/each}}
+        {{else}}
+          <p>No items in your bucket list yet.</p>
+        {{/if}}
       </div>
-      {{/if}}
+    </div>
+
+    <div class="col s4">
+      <div class="card-panel">
+        <h6>Add an idea to your Bucket List:</h6>
+        <form class="new-project-form">
+          <div class="input-field">
+            <input id="bucketlistitem-item" type="text" name="bucketlistitem-item" />
+            <label for="bucketlistitem-item">Idea Title:</label>
+          </div>
+          <div class="input-field">
+            <input id="bucketlistitem-desc" type="text" name="bucketlistitem-desc" />
+            <label for="bucketlistitem-desc">Description:</label>
+          </div>
+          <div class="input-field">
+            <input id="bucketlistitem-category" type="text" name="bucketlistitem-category" />
+            <label for="bucketlistitem-category">Category:</label>
+          </div>
+          <button type="submit" class="waves-effect waves-light btn grey darken-4">
+            <span class="orange-text text-lighten-3">Add</span>
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 
-  {{!--form to dd the inital bucket list idea or add more ideas--}}
-  <div class="col s4">
-    <div class="card-panel" style="background-color: rgba(255, 255, 255, 0.75);"> 
-
-      <h6>Add an idea to your Bucket List:</h6>
-
-      <form class="form new-project-form">
-        <div class="form-group">
-          <label for="bucketlistitems-item">Idea Title:</label>
-          <input class="form-input" type="text" id="bucketlistitem-item" name="project-funding" />
-        </div>
-        <div class="form-group">
-          <label for="bucketlistitems-category">Category:</label>
-          <input class="form-input" id="bucketlistitem-category" name="project-desc"></input>
-        </div>
-        <div class="form-group">
-          <label for="bucketlistitems-desc">Description:</label>
-          <input class="form-input" id="bucketlistitem-desc" name="project-desc"></input>
-        </div>
-        <div>
-
-          <button type="submit" class="btn btn-primary">Add</button>
-        </div>
-      </form>
-
-    </div>
-  </div>
-
-  <!-- Update form for bucket list idea-->
-  <form id="update-form" style="display:none;" class="mt-4">
+  <form id="update-form" style="display: none;" class="card-panel white lighten-5">
     <h3>Update Bucket List Item:</h3>
-    <div class="form-group">
+    <div class="input-field">
+      <input id="update-bucketlistitem-item" type="text" />
       <label for="update-bucketlistitem-item">Item:</label>
-      <input class="form-input black-text text-darken-3" type="text" id="update-bucketlistitem-item" />
     </div>
-    <div class="form-group">
+    <div class="input-field">
+      <input id="update-bucketlistitem-category" type="text" />
       <label for="update-bucketlistitem-category">Category:</label>
-      <textarea class="form-input" id="update-bucketlistitem-category"></textarea>
     </div>
-    <div class="form-group">
+    <div class="input-field">
+      <input id="update-bucketlistitem-desc" type="text" />
       <label for="update-bucketlistitem-desc">Description:</label>
-      <textarea class="form-input" id="update-bucketlistitem-desc"></textarea>
     </div>
-    <div class="form-group">
-      <button type="submit" class="btn btn-primary">Submit Update</button>
-    </div>
+    <button type="submit" class="waves-effect waves-light btn grey darken-4">
+      <span class="orange-text text-lighten-3">Submit Update</span>
+    </button>
   </form>
-
 </main>
 
 <script src="/js/profile.js"></script>
+
