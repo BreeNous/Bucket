@@ -67,7 +67,7 @@
     </div>
   </div>
 
-  <form id="update-form" style="display: none;" class="card-panel white lighten-5">
+  <form id="update-form" style="display: none; z-index: 2;" class="card-panel white lighten-5">
     <h3>Update Bucket List Item:</h3>
     <div class="input-field">
       <input id="update-bucketlistitem-item" type="text" />
@@ -81,9 +81,8 @@
       <input id="update-bucketlistitem-desc" type="text" />
       <label for="update-bucketlistitem-desc"></label>
     </div>
-    <button type="submit" class="waves-effect waves-light btn grey darken-4">
-      <span class="orange-text text-lighten-3">Submit Update</span>
-    </button>
+    <button type="submit" class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3">Submit Update</button>
+    <button type="cancel" class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3">Back</button>
   </form>
 </main>
 
