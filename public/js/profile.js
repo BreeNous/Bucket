@@ -121,18 +121,17 @@ document
   .querySelector(".new-project-form")
   .addEventListener("submit", newFormHandler);
 
-document.querySelector(".delete").addEventListener("click", delButtonHandler);
+const deleteItem = document.querySelectorAll(".delete");
+  for (let i = 0; i < deleteItem.length; i++) {
+    deleteItem[i].addEventListener("click",  delButtonHandler);
+  }
 
-
- const updateItem = document
-   .querySelectorAll(".update");
-
-   for (let i = 0; i < updateItem.length; i++) {
-       updateItem[i].addEventListener("click",  updateButtonHandler);
-   }
+ const updateItem = document.querySelectorAll(".update");
+  for (let i = 0; i < updateItem.length; i++) {
+    updateItem[i].addEventListener("click",  updateButtonHandler);
+  }
 
 document
   .querySelector("#update-form")
   .addEventListener("submit", updateFormHandler);
 
-  // .addEventListener("click", updateButtonHandler);
