@@ -32,12 +32,8 @@
                 </p>
               </div>
               <div class="col s4" style="display: flex; flex-direction: column; gap: 10px;">
-                <button id="update" class="waves-effect waves-light btn grey darken-4" data-id="{{BucketListItem.id}}">
-                  <span class="orange-text text-lighten-3">Update</span>
-                </button>
-                <button id="delete" class="waves-effect waves-light btn grey darken-4" data-id="{{BucketListItem.id}}">
-                  <span class="orange-text text-lighten-3">Delete</span>
-                </button>
+                <button class="waves-effect waves-light btn grey darken-4 update orange-text text-lighten-3" data-id="{{BucketListItem.id}}">Update</button>
+                <button class="waves-effect waves-light btn grey darken-4 delete orange-text text-lighten-3" data-id="{{BucketListItem.id}}">Delete</button>
               </div>
             </div>
           {{/each}}
@@ -75,15 +71,15 @@
     <h3>Update Bucket List Item:</h3>
     <div class="input-field">
       <input id="update-bucketlistitem-item" type="text" />
-      <label for="update-bucketlistitem-item">Item:</label>
+      <label for="update-bucketlistitem-item"></label>
     </div>
     <div class="input-field">
       <input id="update-bucketlistitem-category" type="text" />
-      <label for="update-bucketlistitem-category">Category:</label>
+      <label for="update-bucketlistitem-category"></label>
     </div>
     <div class="input-field">
       <input id="update-bucketlistitem-desc" type="text" />
-      <label for="update-bucketlistitem-desc">Description:</label>
+      <label for="update-bucketlistitem-desc"></label>
     </div>
     <button type="submit" class="waves-effect waves-light btn grey darken-4">
       <span class="orange-text text-lighten-3">Submit Update</span>

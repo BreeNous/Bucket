@@ -29,6 +29,7 @@ const newFormHandler = async (event) => {
 };
 
 const updateButtonHandler = async (event) => {
+
   if (event.target.hasAttribute("data-id")) {
     const id = event.target.getAttribute("data-id");
     localStorage.setItem('imlazy', id)
@@ -43,13 +44,13 @@ const updateButtonHandler = async (event) => {
 
     if (response.ok) {
       const itemData = await response.json();
-      
+      console.log(itemData);
       // Populate form fields with current data
-      document.querySelector("#update-bucketlistitem-item").textContent =
+      document.querySelector("#update-bucketlistitem-item").value =
         itemData.item;
-      document.querySelector("#update-bucketlistitem-category").textContent =
+      document.querySelector("#update-bucketlistitem-category").value =
         itemData.category;
-      document.querySelector("#update-bucketlistitem-desc").textContent =
+      document.querySelector("#update-bucketlistitem-desc").value =
         itemData.description;
         document.querySelector('#update-form').style.display = 'block'
     } else {
@@ -120,12 +121,18 @@ document
   .querySelector(".new-project-form")
   .addEventListener("submit", newFormHandler);
 
-document.querySelector("#delete").addEventListener("click", delButtonHandler);
+document.querySelector(".delete").addEventListener("click", delButtonHandler);
 
-document
-  .querySelector("#update")
-  .addEventListener("click", updateButtonHandler);
+
+ const updateItem = document
+   .querySelectorAll(".update");
+
+   for (let i = 0; i < updateItem.length; i++) {
+       updateItem[i].addEventListener("click",  updateButtonHandler);
+   }
 
 document
   .querySelector("#update-form")
   .addEventListener("submit", updateFormHandler);
+
+  // .addEventListener("click", updateButtonHandler);
