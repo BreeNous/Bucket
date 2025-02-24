@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "seed": "node seeds/seed.js"
+    "seed": "node seeds/seed.js",
+    "dev": "nodemon"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
+    "nodemon": "^3.1.9",
     "prettier": "^2.1.2"
   }
 }

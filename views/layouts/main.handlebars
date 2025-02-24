@@ -1,19 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bucket</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="css/loginhb.css">
+    <link rel="stylesheet" href="css/homePage.css">
 </head>
 
 <body>
-<!--Main title-->
-      <!-- Render the sub layout -->
-      {{{ body }}}
-    
+
+    <!-- Render the sub layout -->
+    {{{ body }}}
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const modals = document.querySelectorAll(".modal");
+            M.Modal.init(modals); // ✅ Initializes Materialize modals
+        });
+    </script>
+
+    <!-- Include additional JavaScript files -->
+    <script src="/js/signup.js"></script>
+    <script src="/js/logout.js"></script>
+
+
 </body>
+
 </html>
