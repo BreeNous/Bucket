@@ -1,24 +1,139 @@
 
-    <video autoplay muted loop style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
-    <source src="/media/beach.mp4" type="video/mp4">
-    </video>
+<video autoplay muted loop style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
 
-    <div class="container" style="position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin-top: -50px;">
-        <!-- Content goes here -->
-        <h1 style="text-align: center; font-size: 8em; margin-bottom: -5px;"><span class="orange-text text-lighten-3">Bucket</span></h1>
-        <h4 style="text-align: center; font-size: 1.5em; font-weight: bold;"><span class="grey-text text-darken-4">Life is short, so your bucket list shouldn't be. It's time you started doing the things you've set aside for later because later isn't guaranteed. Get started with Bucket and make every moment count.</span></h4>
-        <div style="text-align: center;">
-            {{#if logged_in}}
-            <h5>Welcome back {{name}}</h5>
-            <a href="/profile" class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3">Continue to Bucket</a>
-            <button id="logOutButton" class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3">Log out</button>
-            {{else}}
-            <a href="/login" class="waves-effect waves-light btn grey darken-4"><span class="orange-text text-lighten-3">Get Started</span></a>
-            {{/if}}
+    <source src="/media/beach.mp4" type="video/mp4">
+
+</video>
+
+{{!-- page content container box --}}
+<div class="container valign-wrapper" style="height: 100vh;display: flex;justify-content: center;">
+
+    {{!-- transparent square --}}
+    <div style="background: rgba(255, 255, 255, 0.435); height: 70vh; width: 50vw;">
+
+        {{!-- top half of tranparent square content --}}
+        <div class="row valign-wrapper" style="height: 65%;">
+
+            <div class="col s12" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+
+                {{!-- "welcome to" heading --}}
+                <h5 class="grey-text text-darken-4" style="text-align: center; font-size: 2em; font-weight: bold;">
+                    {{#if logged_in}}
+                        Dive back into
+                    {{else}}
+                        Welcome to
+                    {{/if}}
+                </h5>
+            
+                {{!-- "Bucket" heading --}}
+                <h4 class="orange-text text-lighten-3" style="text-align: center; font-size: 7em;">Bucket</h4>
+
+                {{!-- description section under bucket heading --}}
+                <h4 style="text-align: center; font-size: 1.5em; font-weight: bold;padding-left: 5em;padding-right: 5em;">
+
+                    <span class="grey-text text-darken-4">The home for all those crazy dreams you want to to achieve before
+                        you
+                        <span style="font-style: italic;">* dramatic pause *</span>
+                        <br>
+                        kick the bucket!
+                    </span>
+                </h4>
+
+            </div>
+
         </div>
 
-        {{#if logged_in}}
-        <script src="/js/logout.js"></script>
-        {{/if}}
+        {{!-- middle of transparent square divider line --}}
+        <div class="divider container center-align" style="width: 80%; background-color:black"></div>
+
+        {{!-- bottom half of tranparent square content --}}
+        <div class="row" style="height: 30%;">
+
+            {{!-- if active session --}}
+            {{#if logged_in}}
+
+            {{!-- if active session, an action button will take the user straight to the main content of the
+            application --}}
+            <div class="col s5 valign-wrapper" style="height: 100%;">
+                <div class="container right-align">
+                    <a class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3" 
+                    href="/profile">Continue
+                    </a>
+                </div>
+            </div>
+
+            <!--OR divider section-->
+            <div class="col s2 valign-wrapper" style="height: 100%;">
+                <p class="container center-align" style="font-size: 1.5em"><span
+                        class="orange-text text-lighten-3">or</span>
+                </p>
+            </div>
+
+            {{!-- if active session, an action button will allow the user to log out and end the session --}}
+            <div class="col s5 valign-wrapper" style="height: 100%;">
+                <div class="container left-align">
+                    <button class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3" 
+                    id="logOutButton">Log out
+                    </button>
+                </div>
+            </div>
+
+            {{else}}
+
+            <!-- Sign Up Button (Opens Sign up Modal) -->
+            <div class="col s5 valign-wrapper" style="height: 100%;">
+                <div class="container right-align">
+                    <a href="#signupModal" class="waves-effect waves-light btn grey darken-4 modal-trigger">
+                        <span class="orange-text text-lighten-3">Sign up</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Signup Modal -->
+            <div id="signupModal" class="modal">
+                <div class="modal-content" style="height: 80% !important;">
+                    {{> signup}} <!-- signup page is used as a partial now -->
+                </div>
+                <div class="modal-footer" style="display: flex; justify-content: center; align-items:center; height: 20% !important;">
+                    <a href="#" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                </div>
+            </div>
+
+            <!--OR divider section-->
+            <div class="col s2 valign-wrapper" style="height: 100%;">
+                <p class="container center-align" style="font-size: 1.5em"><span
+                        class="orange-text text-lighten-3">or</span>
+                </p>
+            </div>
+
+            <!-- Log in Button (Opens log in Modal) -->
+            <div class="col s5 valign-wrapper" style="height: 100%;">
+                <div class="container left-align">
+                    <a href="#loginModal" class="waves-effect waves-light btn grey darken-4 modal-trigger">
+                        <span class=" orange-text text-lighten-3">Login</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Login Modal -->
+            <div id="loginModal" class="modal">
+                <div class="modal-content" style="height: 80% !important;">
+                    {{> login}} <!-- ✅ Correct partial usage -->
+                </div>
+                <div class="modal-footer" style="display: flex; justify-content: center; align-items:center; height: 20% !important;">
+                    <a href="#" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                </div>
+            </div>
+
+            {{/if}}
+
+            {{#if logged_in}}
+
+            <script src="/js/logout.js">
+            </script>
+
+            {{/if}}
+
     </div>
 
+</div>
