@@ -1,4 +1,4 @@
-<main class="orange lighten-3">
+<main class="" style="background-image: url(/media/paperTexture.jpg);">
   <header class="row valign-wrapper" style="margin-bottom: 0;">
     <div class="col s6 valign-wrapper">
       <h2 class="cyan-text text-darken-3">Bucket</h2>
@@ -7,9 +7,7 @@
       <h6 class="cyan-text text-darken-3">Welcome back, {{name}}</h6>
     </div>
     <div class="col s3 valign-wrapper" style="text-align: right;">
-      <a href="/" class="waves-effect waves-light btn grey darken-4">
-        <span class="orange-text text-lighten-3">Home</span>
-      </a>
+      <a href="/" class="waves-effect waves-light btn cyan darken-3 white-text">Home</a>
     </div>
   </header>
 
@@ -17,28 +15,30 @@
     <div class="col s8">
       <div class="card-panel">
         {{#if bucketlistitems.length}}
-          <h4>My Bucket List:</h4>
-          {{#each bucketlistitems as |BucketListItem|}}
-            <div class="row mb-2">
-              <div class="col s8">
-                <h5>{{BucketListItem.item}}</h5>
-                <p>Category: {{BucketListItem.category}}</p>
-                <p>Description: {{BucketListItem.description}}</p>
-                <p>
-                  <label>
-                    <input type="checkbox" />
-                    <span>Completed?</span>
-                  </label>
-                </p>
-              </div>
-              <div class="col s4" style="display: flex; flex-direction: column; gap: 10px;">
-                <button class="waves-effect waves-light btn grey darken-4 update orange-text text-lighten-3" data-id="{{BucketListItem.id}}">Update</button>
-                <button class="waves-effect waves-light btn grey darken-4 delete orange-text text-lighten-3" data-id="{{BucketListItem.id}}">Delete</button>
-              </div>
-            </div>
-          {{/each}}
+        <h4>My Bucket List:</h4>
+        {{#each bucketlistitems as |BucketListItem|}}
+        <div class="row mb-2">
+          <div class="col s8">
+            <h5>{{BucketListItem.item}}</h5>
+            <p>Category: {{BucketListItem.category}}</p>
+            <p>Description: {{BucketListItem.description}}</p>
+            <p>
+              <label>
+                <input type="checkbox" />
+                <span>Completed?</span>
+              </label>
+            </p>
+          </div>
+          <div class="col s4" style="display: flex; flex-direction: column; gap: 10px;">
+            <button class="waves-effect waves-light btn grey darken-4 update orange-text text-lighten-3"
+              data-id="{{BucketListItem.id}}">Update</button>
+            <button class="waves-effect waves-light btn grey darken-4 delete orange-text text-lighten-3"
+              data-id="{{BucketListItem.id}}">Delete</button>
+          </div>
+        </div>
+        {{/each}}
         {{else}}
-          <p>Your Bucket list is empty, add some new ideas!</p>
+        <p>Your Bucket list is empty, add some new ideas!</p>
         {{/if}}
       </div>
     </div>
@@ -59,9 +59,7 @@
             <input id="bucketlistitem-category" type="text" name="bucketlistitem-category" />
             <label for="bucketlistitem-category">Category:</label>
           </div>
-          <button type="submit" class="waves-effect waves-light btn grey darken-4">
-            <span class="orange-text text-lighten-3">Add</span>
-          </button>
+          <button type="submit" class="waves-effect waves-light btn cyan darken-3 white-text">Add</button>
         </form>
       </div>
     </div>
@@ -81,10 +79,10 @@
       <input id="update-bucketlistitem-desc" type="text" />
       <label for="update-bucketlistitem-desc"></label>
     </div>
-    <button type="submit" class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3">Submit Update</button>
+    <button type="submit" class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3">Submit
+      Update</button>
     <button type="cancel" class="waves-effect waves-light btn grey darken-4 orange-text text-lighten-3">Back</button>
   </form>
 </main>
 
 <script src="/js/profile.js"></script>
-
