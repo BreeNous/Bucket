@@ -18,7 +18,12 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Set up Handlebars.js as the default engine with custom helpers
-const hbs = exphbs.create({ helpers });
+const hbs = exphbs.create({
+  helpers, // Keep your existing helpers
+  extname: ".handlebars", // Ensure correct file extension
+  partialsDir: path.join(__dirname, "views/partials"),
+
+});
 
 // Sets up session and connect to our Sequelize db
 // Configure and link a session object with the sequelize store
