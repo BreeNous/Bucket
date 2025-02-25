@@ -14,35 +14,6 @@ html, body {
   flex-direction: column;
 }
 
-/* login handlebars css*/
-
-.row.valign-wrapper {
-    display: flex;
-    align-items: stretch;
-  }
-  
-  .card-panel {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .card-panel h4 {
-    margin-top: 0;
-  }
-
-  .col.s12 .card-panel {
-    height: 100%;
-  }
-
-  #update-form {
-    left: 25%;
-    top: 25%;
-    display: block;
-    position: absolute;
-    background: white;
-    padding: 5%;
-  }
-
   #update-bucketlistitem-item {
 color: black !important;  }
 
