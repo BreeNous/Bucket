@@ -126,28 +126,35 @@ router.get("/:id/image", withAuth, async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Find the bucket list item in the database
+    console.log(`Fetching image for bucket list item ID: ${id}`);
+
+    // Find the bucket list item and ensure it belongs to the logged-in user
     const item = await BucketListItem.findOne({
-      where: { id, user_id: req.session.user_id }, // Ensure user can only access their own images
+      where: { id, user_id: req.session.user_id },
     });
 
     if (!item || !item.image) {
+      console.log("❌ Image not found or unauthorized");
       return res.status(404).json({ message: "Image not found or unauthorized" });
     }
 
+    // Ensure the image path is correct
     const imagePath = path.join(__dirname, "../../private_uploads/", path.basename(item.image));
 
-    // Check if the file exists before sending it
+    console.log(`Serving image from: ${imagePath}`);
+
     if (fs.existsSync(imagePath)) {
       res.sendFile(imagePath);
     } else {
+      console.log("❌ Image file not found on disk");
       res.status(404).json({ message: "Image file not found" });
     }
   } catch (error) {
-    console.error("Error fetching image:", error);
+    console.error("❌ Error fetching image:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 
 module.exports = router;
