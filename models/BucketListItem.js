@@ -1,8 +1,6 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection');
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/connection");
 
-
-// Create Project model and datatypes, including the user_id foreign key.
 class BucketlistItem extends Model {}
 
 BucketlistItem.init(
@@ -18,16 +16,20 @@ BucketlistItem.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-     completed: {
+    completed: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
+    },
+    image: {
+      type: DataTypes.STRING, // Store image URL
+      allowNull: true, // Allow empty if no image uploaded
     },
     user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'user',
-        key: 'id',
+        model: "user",
+        key: "id",
       },
     },
   },
@@ -36,7 +38,7 @@ BucketlistItem.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'bucketlistitem',
+    modelName: "bucketlistitem",
   }
 );
 
