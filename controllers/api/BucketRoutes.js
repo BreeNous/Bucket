@@ -98,35 +98,40 @@ const upload = multer({ storage });
 router.post("/:id/upload", upload.single("image"), async (req, res) => {
   try {
     const { id } = req.params;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
-    if (!imageUrl) {
+    if (!req.file) {
+      console.log("❌ No image uploaded.");
       return res.status(400).json({ message: "No image uploaded" });
     }
 
-    // Update the database with the image URL
+    const imageUrl = `private_uploads/${req.file.filename}`; // ✅ Correct path for private storage
+    console.log(`✅ Saving image: ${imageUrl} for bucket list item ID: ${id}`);
+
     const updatedItem = await BucketListItem.update(
       { image: imageUrl },
       { where: { id } }
     );
 
     if (updatedItem[0] > 0) {
+      console.log("✅ Image successfully saved to database.");
       res.status(200).json({ imageUrl });
     } else {
+      console.log("❌ Failed to update database.");
       res.status(404).json({ message: "Bucket list item not found" });
     }
   } catch (error) {
-    console.error("Error uploading image:", error);
+    console.error("❌ Error uploading image:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 // Protected image route (only logged-in users can access their own images)
 router.get("/:id/image", withAuth, async (req, res) => {
   try {
     const { id } = req.params;
-
-    console.log(`Fetching image for bucket list item ID: ${id}`);
+    console.log(`🔍 Fetching image for bucket list item ID: ${id}`);
+    console.log(`👤 Logged-in user ID: ${req.session.user_id}`);
 
     // Find the bucket list item and ensure it belongs to the logged-in user
     const item = await BucketListItem.findOne({
@@ -134,19 +139,17 @@ router.get("/:id/image", withAuth, async (req, res) => {
     });
 
     if (!item || !item.image) {
-      console.log("❌ Image not found or unauthorized");
+      console.log("❌ Image not found in database or unauthorized access.");
       return res.status(404).json({ message: "Image not found or unauthorized" });
     }
 
-    // Ensure the image path is correct
-    const imagePath = path.join(__dirname, "../../private_uploads/", path.basename(item.image));
-
-    console.log(`Serving image from: ${imagePath}`);
+    const imagePath = path.join(__dirname, "../../", item.image);
+    console.log(`📂 Serving image from: ${imagePath}`);
 
     if (fs.existsSync(imagePath)) {
       res.sendFile(imagePath);
     } else {
-      console.log("❌ Image file not found on disk");
+      console.log("❌ Image file not found on disk.");
       res.status(404).json({ message: "Image file not found" });
     }
   } catch (error) {
@@ -154,7 +157,6 @@ router.get("/:id/image", withAuth, async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 
 module.exports = router;
