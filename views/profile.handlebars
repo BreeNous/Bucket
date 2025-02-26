@@ -1,4 +1,5 @@
-<main class="" style="background-image: url(/media/paperTexture.jpg);">
+<main class=""
+  style="background-image: url(/media/paperTexture.jpg); background-size:cover; height: 100vh; width:100vw; position:fixed; top:0; overflow:scroll;">
   <header class="row" style="display:flex; margin-bottom: 0; align-items:stretch;">
     <div class="col s3" style="display: flex; padding-left: 30px; align-items:center;">
       <h2 class="cyan-text text-darken-3">Bucket</h2>
@@ -13,9 +14,10 @@
 
   <div class="container">
 
-    <div class="row">
+    {{!-- top section for adding a new idea to your bucket list --}}
+    <div class="row" style="margin-bottom: 50px;">
       <div class="col s12">
-        <div class="card-panel">
+        <div style="border: solid; border-radius: 1px; border-color: #00838f; padding: 20px;">
           <h6>Add an idea to your Bucket List:</h6>
           <form class="new-project-form">
             <div class="input-field">
@@ -38,28 +40,61 @@
 
     <div class="row">
       <div class="col s12" style="padding-bottom: 15px;">
-        <div class="card-panel">
+        <div>
           {{#if bucketlistitems.length}}
-          <h4>My Bucket List:</h4>
+          <h4 style="display: flex; justify-content: center; padding-bottom: 20px;">My Bucket List:</h4>
           {{#each bucketlistitems as |BucketListItem|}}
           <div class="row mb-2">
-            <div class="col s8">
-              <h5>{{BucketListItem.item}}</h5>
+            <div class="col s6">
+              <div style="display: flex; align-items:center;">
+                {{!-- idea title for existing list item --}}
+                <h4 style="margin-right: 20px; margin-top: 13.68px;">{{BucketListItem.item}}</h4>
+                {{!-- edit button (pen icon) for existing list item --}}
+                <button
+                  style="margin-right: 20px; display:flex; justify-content:center; align-items:center; height: 30px; width: 30px;"
+                  class="waves-effect waves-light btn cyan darken-3 update white-text modal-trigger"
+                  data-target="update-modal" data-id="{{BucketListItem.id}}"><i class="fa-solid fa-pen"
+                    style="scale: 80%;"></i></button>
+                {{!-- delete button (trash icon) for existing list item --}}
+                <button
+                  style="margin-right: 20px; display:flex; justify-content:center; align-items:center; height: 30px; width: 30px;"
+                  class="waves-effect waves-light btn cyan darken-3 delete white-text"
+                  data-id="{{BucketListItem.id}}"><i class="fa-solid fa-trash" style="scale: 80%;"></i>
+                </button>
+              </div>
+
+              {{!-- image display section --}}
+              <div class="col s6" id="image-container-{{BucketListItem.id}}">
+                {{#if BucketListItem.image}}
+                <img src="/api/bucket/{{BucketListItem.id}}/image" alt="Bucket List Image"
+                  style="max-width: 150px; height: auto;">
+                {{else}}
+                <p>No image uploaded yet.</p>
+                {{/if}}
+              </div>
+
+              <form class="image-upload-form" data-id="{{BucketListItem.id}}">
+                <input type="file" class="image-upload-input" data-id="{{BucketListItem.id}}" accept="image/*"
+                  style="display: none;">
+                <button type="button" class="waves-effect waves-light btn cyan darken-3 white-text upload-button"
+                  data-id="{{BucketListItem.id}}">
+                  Upload Image
+                </button>
+              </form>
+
+              {{!-- category for existing list item --}}
               <p>Category: {{BucketListItem.category}}</p>
+              {{!-- description for existing list item--}}
               <p>Description: {{BucketListItem.description}}</p>
-              <label>
+              <label style="padding-right: 20px;">
                 <input type="checkbox" />
                 <span>Completed?</span>
               </label>
-              </p>
-            </div>
-            <div class="col s4" style="display: flex; flex-direction: column; gap: 10px;">
-              <button class="waves-effect waves-light btn cyan darken-3 update white-text modal-trigger" data-target="update-modal"
-                data-id="{{BucketListItem.id}}">Edit</button>
-              <button class="waves-effect waves-light btn cyan darken-3 delete white-text"
-                data-id="{{BucketListItem.id}}">Delete</button>
             </div>
           </div>
+          {{#unless @last}}
+          <hr style="border-style: solid; color:#00838f; margin-top: 15px; margin-bottom: 15px;">
+          {{/unless}}
           {{/each}}
           {{else}}
           <p>Your Bucket list is empty, add some new ideas!</p>
@@ -71,32 +106,31 @@
   </div>
 
   {{!-- Update/ edit pop-up form --}}
-  {{!-- <div style="display: flex; justify-content: center; align-items: center; position: fixed; top: 0; width: 100%; height: 100vh;"> --}}
-    <div id="update-modal" class="modal">
-      <div class="modal-content">
-        <h3 id="update-title">Edit Idea:</h3>
-        <form id="update-form" class="card-panel white lighten-5">
-          <div class="input-field">
-            <input id="update-bucketlistitem-item" type="text" />
-            <label for="update-bucketlistitem-item"></label>
-          </div>
-          <div class="input-field">
-            <input id="update-bucketlistitem-category" type="text" />
-            <label for="update-bucketlistitem-category"></label>
-          </div>
-          <div class="input-field">
-            <input id="update-bucketlistitem-desc" type="text" />
-            <label for="update-bucketlistitem-desc"></label>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Save
-              Changes</button>
-            <button type="cancel" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Back</button>
-          </div>
-        </form>
-      </div>
-      
+  <div id="update-modal" class="modal">
+    <div class="modal-content">
+      <h3 id="update-title">Edit Idea:</h3>
+      <form id="update-form" class="card-panel white lighten-5">
+        <div class="input-field">
+          <input id="update-bucketlistitem-item" type="text" />
+          <label for="update-bucketlistitem-item" class="active"></label>
+        </div>
+        <div class="input-field">
+          <input id="update-bucketlistitem-category" type="text" />
+          <label for="update-bucketlistitem-category" class="active"></label>
+        </div>
+        <div class="input-field">
+          <input id="update-bucketlistitem-desc" type="text" />
+          <label for="update-bucketlistitem-desc" class="active"></label>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Save
+            Changes</button>
+          <button type="cancel" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Back</button>
+        </div>
+      </form>
     </div>
+
+  </div>
 
   </div>
 </main>
