@@ -151,35 +151,39 @@ document.addEventListener("click", (event) => {
 document.addEventListener("change", async (event) => {
   if (event.target.classList.contains("image-upload-input")) {
     const id = event.target.getAttribute("data-id");
-    const file = event.target.files[0];
-
-    if (!file) return;
-
+    const fileInput = event.target;
     const formData = new FormData();
-    formData.append("image", file);
+    formData.append("image", fileInput.files[0]);
 
-    console.log("Uploading image for bucket list item with ID:", id);
     try {
+      console.log(`📤 Uploading image for bucket list item ID: ${id}`);
+
       const response = await fetch(`/api/bucket/${id}/upload`, {
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log("Upload successful:", data);
-
-        // Update the image in the UI
-        const imageContainer = document.querySelector(`#image-container-${id}`);
-        imageContainer.innerHTML = `<img src="${data.imageUrl}" alt="Bucket List Image" style="max-width: 150px; height: auto;">`;
+        console.log("✅ Upload successful!");
+        
+        // ✅ Update the image in the UI **without reloading**
+        const imageElement = document.querySelector(`#image-container-${id} img`);
+        if (imageElement) {
+          imageElement.src = `/api/bucket/${id}/image?timestamp=${new Date().getTime()}`;
+          console.log("✅ Image updated in the DOM:", imageElement.src);
+        } else {
+          console.error("❌ Image element not found in the DOM.");
+        }
       } else {
-        alert("Failed to upload image.");
+        console.error("❌ Failed to upload image.");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("❌ Error uploading image:", error);
     }
   }
 });
+
+
 
 
 

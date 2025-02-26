@@ -62,7 +62,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/media", express.static(path.join(__dirname, "media")));
 
-
 // Servers the routes to the server
 app.use(routes);
 
