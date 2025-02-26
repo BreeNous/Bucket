@@ -60,6 +60,9 @@ app.use(express.urlencoded({ extended: true }));
 // Static middleware pointing to the public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use("/media", express.static(path.join(__dirname, "media")));
+
+
 // Servers the routes to the server
 app.use(routes);
 
