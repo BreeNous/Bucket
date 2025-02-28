@@ -63,24 +63,27 @@
                 </button>
               </div>
 
-              {{!-- image display section --}}
+              {{!-- Image Display Section --}}
               <div class="col s6" id="image-container-{{BucketListItem.id}}">
                 {{#if BucketListItem.image}}
                 <img src="/api/bucket/{{BucketListItem.id}}/image" alt="Bucket List Image"
                   style="max-width: 150px; height: auto;">
                 {{else}}
-                <p>No image uploaded yet.</p>
+                <p id="no-image-text-{{BucketListItem.id}}">No image uploaded yet.</p> <!-- ✅ Dynamic placeholder -->
                 {{/if}}
               </div>
 
+              {{!-- Upload Button Section --}}
               <form class="image-upload-form" data-id="{{BucketListItem.id}}">
                 <input type="file" class="image-upload-input" data-id="{{BucketListItem.id}}" accept="image/*"
                   style="display: none;">
+
                 <button type="button" class="waves-effect waves-light btn cyan darken-3 white-text upload-button"
                   data-id="{{BucketListItem.id}}">
                   Upload Image
                 </button>
               </form>
+
 
               {{!-- category for existing list item --}}
               <p>Category: {{BucketListItem.category}}</p>

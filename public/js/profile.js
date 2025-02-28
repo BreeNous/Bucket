@@ -164,16 +164,31 @@ document.addEventListener("change", async (event) => {
       });
 
       if (response.ok) {
-        console.log("✅ Upload successful!");
-        
+        const data = await response.json();
+        console.log("✅ Upload successful:", data);
+
         // ✅ Update the image in the UI **without reloading**
-        const imageElement = document.querySelector(`#image-container-${id} img`);
-        if (imageElement) {
-          imageElement.src = `/api/bucket/${id}/image?timestamp=${new Date().getTime()}`;
-          console.log("✅ Image updated in the DOM:", imageElement.src);
-        } else {
-          console.error("❌ Image element not found in the DOM.");
+        const imageContainer = document.querySelector(`#image-container-${id}`);
+        
+        if (!imageContainer) {
+          console.error(`❌ Image container for ID ${id} not found in the DOM.`);
+          return;
         }
+
+        let imageElement = imageContainer.querySelector("img");
+
+        // ✅ If no <img> tag exists yet, create one dynamically
+        if (!imageElement) {
+          imageElement = document.createElement("img");
+          imageElement.style.maxWidth = "150px"; // Adjust size as needed
+          imageElement.style.height = "auto";
+          imageContainer.appendChild(imageElement); // Append to the container
+          console.log(`✅ Created new image element for bucket list item ID: ${id}`);
+        }
+
+        // ✅ Update the image source to show the new upload
+        imageElement.src = `/api/bucket/${id}/image?timestamp=${new Date().getTime()}`;
+        console.log("✅ Image updated in the DOM:", imageElement.src);
       } else {
         console.error("❌ Failed to upload image.");
       }
@@ -182,6 +197,8 @@ document.addEventListener("change", async (event) => {
     }
   }
 });
+
+
 
 
 

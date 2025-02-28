@@ -83,18 +83,24 @@ router.put("/:id", withAuth, async (req, res) => {
   }
 });
 
-// Configure Multer storage
+const uploadDir = path.join(__dirname, "../../private_uploads/");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true }); // ✅ Ensure directory exists
+}
+
 const storage = multer.diskStorage({
-  destination: path.join(__dirname, "../../private_uploads/"), // ✅ New private path
+  destination: (req, file, cb) => {
+    cb(null, uploadDir); // ✅ Save images in `private_uploads/`
+  },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
+    cb(null, `${Date.now()}-${file.originalname}`); // ✅ Unique filename
   },
 });
 
-
 const upload = multer({ storage });
 
-// Upload an Image for an Existing Bucket List Item
+
+
 router.post("/:id/upload", upload.single("image"), async (req, res) => {
   try {
     const { id } = req.params;
@@ -104,8 +110,12 @@ router.post("/:id/upload", upload.single("image"), async (req, res) => {
       return res.status(400).json({ message: "No image uploaded" });
     }
 
-    const imageUrl = `private_uploads/${req.file.filename}`; // ✅ Correct path for private storage
-    console.log(`✅ Saving image: ${imageUrl} for bucket list item ID: ${id}`);
+    console.log(`✅ File uploaded: ${req.file.path}`); // ✅ Log where Multer saves the file
+    console.log(`📂 Checking if file exists on disk: ${fs.existsSync(req.file.path)}`);
+
+    // ✅ Store correct path
+    const imageUrl = `private_uploads/${req.file.filename}`;
+    console.log(`✅ Saving image path to DB: ${imageUrl}`);
 
     const updatedItem = await BucketListItem.update(
       { image: imageUrl },
@@ -124,6 +134,8 @@ router.post("/:id/upload", upload.single("image"), async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+
 
 
 // Protected image route (only logged-in users can access their own images)
