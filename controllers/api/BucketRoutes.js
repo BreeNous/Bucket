@@ -61,45 +61,40 @@ router.delete("/:id", withAuth, async (req, res) => {
 
 router.put("/:id", withAuth, async (req, res) => {
   try {
-    const [BucketListItemData] = await BucketListItem.update(req.body, {
-      where: {
-        id: req.params.id,
-        user_id: req.session.user_id,
-      },
-    });
+    const { item, category, description, completed } = req.body; // ✅ Include 'completed' field
 
-    console.log(BucketListItemData)
+    const [updated] = await BucketListItem.update(
+      { item, category, description, completed }, // ✅ Update completed
+      { where: { id: req.params.id, user_id: req.session.user_id } }
+    );
 
-    if (!BucketListItemData) {
-      res
-        .status(404)
-        .json({ message: "No BucketListItem found with this id!" });
-      return;
+    if (!updated) {
+      return res.status(404).json({ message: "No BucketListItem found with this id!" });
     }
 
-    res.status(200).end();
+    res.status(200).json({ message: "Item updated successfully." });
   } catch (err) {
+    console.error("❌ Error updating item:", err);
     res.status(500).json(err);
   }
 });
 
+
 const uploadDir = path.join(__dirname, "../../private_uploads/");
 if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true }); // ✅ Ensure directory exists
+  fs.mkdirSync(uploadDir, { recursive: true }); // Ensure directory exists
 }
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, uploadDir); // ✅ Save images in `private_uploads/`
+    cb(null, uploadDir); // Save images in `private_uploads/`
   },
   filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`); // ✅ Unique filename
+    cb(null, `${Date.now()}-${file.originalname}`); // Unique filename
   },
 });
 
 const upload = multer({ storage });
-
-
 
 router.post("/:id/upload", upload.single("image"), async (req, res) => {
   try {
@@ -110,33 +105,58 @@ router.post("/:id/upload", upload.single("image"), async (req, res) => {
       return res.status(400).json({ message: "No image uploaded" });
     }
 
-    console.log(`✅ File uploaded: ${req.file.path}`); // ✅ Log where Multer saves the file
+    console.log(`✅ File uploaded: ${req.file.path}`); 
     console.log(`📂 Checking if file exists on disk: ${fs.existsSync(req.file.path)}`);
 
-    // ✅ Store correct path
     const imageUrl = `private_uploads/${req.file.filename}`;
     console.log(`✅ Saving image path to DB: ${imageUrl}`);
 
-    const updatedItem = await BucketListItem.update(
+    // 🔹 Validate that the item exists before updating
+    const item = await BucketListItem.findOne({ where: { id } });
+
+    if (!item) {
+      console.log(`❌ No bucket list item found for ID: ${id}`);
+      return res.status(404).json({ message: "Bucket list item not found" });
+    }
+
+    // ✅ Update the database entry with the new image URL
+    await BucketListItem.update(
       { image: imageUrl },
       { where: { id } }
     );
 
-    if (updatedItem[0] > 0) {
-      console.log("✅ Image successfully saved to database.");
-      res.status(200).json({ imageUrl });
-    } else {
-      console.log("❌ Failed to update database.");
-      res.status(404).json({ message: "Bucket list item not found" });
+    console.log(`🛠 Image path successfully updated in DB: ${imageUrl}`);
+
+    // ✅ Fetch the updated item to verify the change
+    const updatedItem = await BucketListItem.findOne({ where: { id } });
+
+    if (!updatedItem || !updatedItem.image) {
+      console.log("❌ Image update failed, no image found in DB.");
+      return res.status(500).json({ message: "Failed to update image in database" });
     }
+
+    console.log("✅ Image successfully saved to database.");
+    res.status(200).json({ imageUrl });
+
   } catch (error) {
     console.error("❌ Error uploading image:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
+// Get all bucket list items for the logged-in user
+router.get("/", withAuth, async (req, res) => {
+  try {
+    const items = await BucketListItem.findAll({
+      where: { user_id: req.session.user_id },
+    });
 
-
+    res.status(200).json(items); // Always return an array, even if empty
+  } catch (error) {
+    console.error("❌ Error fetching bucket list items:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 // Protected image route (only logged-in users can access their own images)
 router.get("/:id/image", withAuth, async (req, res) => {
@@ -169,6 +189,35 @@ router.get("/:id/image", withAuth, async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
+// route for deleting an image from database and storage
+router.delete("/:id/image", withAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const item = await BucketListItem.findOne({
+      where: { id, user_id: req.session.user_id },
+    });
+
+    if (!item || !item.image) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    const imagePath = path.join(__dirname, "../../", item.image);
+    if (fs.existsSync(imagePath)) {
+      fs.unlinkSync(imagePath);
+      console.log(`✅ Deleted image file: ${imagePath}`);
+    }
+
+    await BucketListItem.update({ image: null }, { where: { id } });
+
+    res.status(200).json({ message: "Image deleted successfully" });
+  } catch (error) {
+    console.error("❌ Error deleting image:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 
 module.exports = router;

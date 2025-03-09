@@ -1,4 +1,4 @@
-<main class=""
+<main
   style="background-image: url(/media/paperTexture.jpg); background-size:cover; height: 100vh; width:100vw; position:fixed; top:0; overflow:scroll;">
   <header class="row" style="display:flex; margin-bottom: 0; align-items:stretch;">
     <div class="col s3" style="display: flex; padding-left: 30px; align-items:center;">
@@ -53,8 +53,9 @@
                 <button
                   style="margin-right: 20px; display:flex; justify-content:center; align-items:center; height: 30px; width: 30px;"
                   class="waves-effect waves-light btn cyan darken-3 update white-text modal-trigger"
-                  data-target="update-modal" data-id="{{BucketListItem.id}}"><i class="fa-solid fa-pen"
-                    style="scale: 80%;"></i></button>
+                  data-target="update-modal" data-id="{{BucketListItem.id}}">
+                  <i class="fa-solid fa-pen" style="scale: 80%;"></i>
+                </button>
                 {{!-- delete button (trash icon) for existing list item --}}
                 <button
                   style="margin-right: 20px; display:flex; justify-content:center; align-items:center; height: 30px; width: 30px;"
@@ -90,9 +91,11 @@
               {{!-- description for existing list item--}}
               <p>Description: {{BucketListItem.description}}</p>
               <label style="padding-right: 20px;">
-                <input type="checkbox" />
+                <input type="checkbox" class="completed-checkbox" data-id="{{BucketListItem.id}}" {{#if
+                  BucketListItem.completed}}checked{{/if}} />
                 <span>Completed?</span>
               </label>
+
             </div>
           </div>
           {{#unless @last}}
@@ -111,31 +114,54 @@
   {{!-- Update/ edit pop-up form --}}
   <div id="update-modal" class="modal">
     <div class="modal-content">
-      <h3 id="update-title">Edit Idea:</h3>
+      <h3>Edit Idea:</h3>
       <form id="update-form" class="card-panel white lighten-5">
         <div class="input-field">
           <input id="update-bucketlistitem-item" type="text" />
-          <label for="update-bucketlistitem-item" class="active"></label>
+          <label for="update-bucketlistitem-item">Idea Title</label>
         </div>
         <div class="input-field">
           <input id="update-bucketlistitem-category" type="text" />
-          <label for="update-bucketlistitem-category" class="active"></label>
+          <label for="update-bucketlistitem-category">Category</label>
         </div>
         <div class="input-field">
           <input id="update-bucketlistitem-desc" type="text" />
-          <label for="update-bucketlistitem-desc" class="active"></label>
+          <label for="update-bucketlistitem-desc">Description</label>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Save
-            Changes</button>
-          <button type="cancel" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Back</button>
+
+        {{!-- Image preview section --}}
+        <div id="update-image-container">
+          {{#if BucketListItem.image}}
+          <img id="update-image-preview" src="/api/bucket/{{BucketListItem.id}}/image" alt="Bucket List Image"
+            style="max-width: 150px; height: auto;">
+          <button type="button" class="waves-effect waves-light btn red darken-3 white-text delete-image-button"
+            data-id="{{BucketListItem.id}}">
+            Delete Image
+          </button>
+          {{else}}
+          <p>No image uploaded yet.</p>
+          {{/if}}
         </div>
+
+        {{!-- Image Upload Section --}}
+        <input type="file" id="update-image-input" accept="image/*" style="display: none;">
+        <button type="button" id="update-image-button" class="waves-effect waves-light btn cyan darken-3 white-text">
+          Replace Image
+        </button>
+
+        <button type="submit" class="modal-close waves-effect waves-light btn cyan darken-3 white-text"
+          id="save-updates">
+          Save Changes
+        </button>
       </form>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Back</button>
     </div>
 
   </div>
 
-  </div>
 </main>
 
 <script src="/js/profile.js"></script>

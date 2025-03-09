@@ -12,4 +12,8 @@ const logout = async () => {
   }
 };
 
-document.querySelector('#logOutButton').addEventListener('click', logout);
+// ✅ Fix: Add event listener only if button exists
+const logoutButton = document.querySelector('#logOutButton');
+if (logoutButton) {
+  logoutButton.addEventListener('click', logout);
+}
