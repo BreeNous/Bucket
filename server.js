@@ -62,6 +62,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use("/media", express.static(path.join(__dirname, "media")));
 
+app.use("/private_uploads", express.static(path.join(__dirname, "private_uploads")));
+
+
 // Servers the routes to the server
 app.use(routes);
 
