@@ -17,13 +17,7 @@
             <div class="col s12" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
 
                 {{!-- "welcome to" heading --}}
-                <h5 class="grey-text text-darken-4" style="text-align: center; font-size: 2em; font-weight: bold;">
-                    {{#if logged_in}}
-                        Dive back into
-                    {{else}}
-                        Welcome to
-                    {{/if}}
-                </h5>
+                <h5 class="grey-text text-darken-4" style="text-align: center; font-size: 2em; font-weight: bold;">Welcome to</h5>
             
                 {{!-- "Bucket" heading --}}
                 <h4 class="cyan-text text-darken-3" style="text-align: center; font-size: 7em;">Bucket</h4>
@@ -48,37 +42,6 @@
 
         {{!-- bottom half of tranparent square content --}}
         <div class="row" style="height: 30%;">
-
-            {{!-- if active session --}}
-            {{#if logged_in}}
-
-            {{!-- if active session, an action button will take the user straight to the main content of the
-            application --}}
-            <div class="col s5 valign-wrapper" style="height: 100%;">
-                <div class="container right-align">
-                    <a class="waves-effect waves-light btn cyan darken-3 text-white" 
-                    href="/profile">Continue
-                    </a>
-                </div>
-            </div>
-
-            <!--OR divider section-->
-            <div class="col s2 valign-wrapper" style="height: 100%;">
-                <p class="container center-align" style="font-size: 1.5em"><span
-                        class="cyan-text text-darken-3">or</span>
-                </p>
-            </div>
-
-            {{!-- if active session, an action button will allow the user to log out and end the session --}}
-            <div class="col s5 valign-wrapper" style="height: 100%;">
-                <div class="container left-align">
-                    <button class="waves-effect waves-light btn cyan darken-3 text-white" 
-                    id="logOutButton">Log out
-                    </button>
-                </div>
-            </div>
-
-            {{else}}
 
             <!-- Sign Up Button (Opens Sign up Modal) -->
             <div class="col s5 valign-wrapper" style="height: 100%;">
@@ -125,15 +88,6 @@
                 </div>
             </div>
 
-            {{/if}}
-
-            {{#if logged_in}}
-
-            <script src="/js/logout.js">
-            </script>
-
-            {{/if}}
-
+        </div>
     </div>
-
 </div>

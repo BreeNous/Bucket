@@ -148,10 +148,10 @@ router.get("/:id/image", withAuth, async (req, res) => {
 // PUT ROUTE: for updating a bucketlist item.
 router.put("/:id", withAuth, async (req, res) => {
   try {
-    const { item, category, description, completed } = req.body; // Include 'completed' field
+    const { item, description, completed } = req.body; // Include 'completed' field
 
     const [updated] = await BucketListItem.update(
-      { item, category, description, completed }, // Update completed
+      { item, description, completed }, // Update completed
       { where: { id: req.params.id, user_id: req.session.user_id } }
     );
 

@@ -4,70 +4,60 @@
     "user_id": 1,
     "item": "Skydiving in Hawaii",
     "description": "Experience the thrill of skydiving over the beautiful landscape of Hawaii.",
-    "category": "Adventure",
     "completed": false
   },
   {
     "user_id": 1,
     "item": "Hike Machu Picchu",
     "description": "Embark on the challenging journey to explore the ancient ruins of Machu Picchu.",
-    "category": "Travel",
     "completed": false
   },
   {
     "user_id": 1,
     "item": "Learn to surf in Australia",
     "description": "Ride the waves and master the art of surfing on the stunning beaches of Australia.",
-    "category": "Adventure",
     "completed": false
   },
   {
     "user_id": 1,
     "item": "Volunteer at an elephant sanctuary in Thailand",
     "description": "Spend time caring for and learning about elephants in a sanctuary in Thailand.",
-    "category": "Volunteering",
     "completed": false
   },
   {
     "user_id": 2,
     "item": "Write a novel",
     "description": "Channel your creativity and imagination into writing a compelling novel.",
-    "category": "Personal Development",
     "completed": false
   },
   {
     "user_id": 2,
     "item": "Attend the Rio Carnival in Brazil",
     "description": "Immerse yourself in the vibrant energy of one of the world's biggest carnivals.",
-    "category": "Travel",
     "completed": false
   },
   {
     "user_id": 2,
     "item": "Learn to speak French fluently",
     "description": "Master the French language and embrace the rich culture of France.",
-    "category": "Personal Development",
     "completed": false
   },
   {
     "user_id": 3,
     "item": "Go on a safari in Africa",
     "description": "Witness the majestic wildlife of Africa up close on an unforgettable safari adventure.",
-    "category": "Travel",
     "completed": false
   },
   {
     "user_id": 3,
     "item": "Take a hot air balloon ride over Cappadocia",
     "description": "Soar above the unique landscapes of Cappadocia in a magical hot air balloon ride.",
-    "category": "Adventure",
     "completed": false
   },
   {
     "user_id": 3,
     "item": "Learn to play a musical instrument",
     "description": "Discover the joy of music by learning to play a musical instrument of your choice.",
-    "category": "Personal Development",
     "completed": false
   }
 ]

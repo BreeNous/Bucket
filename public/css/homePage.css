@@ -1,5 +1,5 @@
 /* Center the modal */
-.modal {
+#loginModal, #signupModal {
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;

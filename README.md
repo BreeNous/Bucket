@@ -13,7 +13,7 @@ This application is a Bucket List website that you can log into to have your own
 No installation required, you simply have to access the page and login!
 
   ## Usage
-Once you log into the site you can use the list to add whatever you desire to it and it will save it for you. You use item to set the title of the list item, category to set items in different categories of your choosing, and a description to set the description of the listed item to go more in-depth on it. 
+Once you log into the site you can use the list to add whatever you desire to it and it will save it for you. You use item to set the title of the list item, and a description to set the description of the listed item to go more in-depth on it. 
 
   ## License
     This project is licensed with MIT

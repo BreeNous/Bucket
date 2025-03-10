@@ -12,10 +12,6 @@ BucketlistItem.init(
     description: {
       type: DataTypes.STRING,
     },
-    category: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     completed: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
@@ -25,11 +21,6 @@ BucketlistItem.init(
       type: DataTypes.STRING, // Store image URL
       allowNull: true, // Allow empty if no image uploaded
     },
-    completed: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false,
-    },    
     user_id: {
       type: DataTypes.INTEGER,
       references: {
