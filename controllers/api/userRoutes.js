@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, BucketListItem } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 // post route for user data to homepage
 router.post('/', async (req, res) => {
@@ -60,5 +61,28 @@ router.post('/logout', (req, res) => {
     res.status(404).end();
   }
 });
+
+// ✅ DELETE route to delete user account and their bucket list items
+router.delete('/delete-account', withAuth, async (req, res) => {
+  try {
+    const userId = req.session.user_id;
+
+    // Delete user's bucket list items first
+    await BucketListItem.destroy({ where: { user_id: userId } });
+
+    // Delete user account
+    await User.destroy({ where: { id: userId } });
+
+    // End user session
+    req.session.destroy(() => {
+      res.status(200).json({ message: 'Account deleted successfully'});
+    });
+
+  } catch (err) {
+    console.error('❌ Error deleting account:', err);
+    res.status(500).json({ message: 'Failed to delete account.' });
+  }
+});
+
 
 module.exports = router;
