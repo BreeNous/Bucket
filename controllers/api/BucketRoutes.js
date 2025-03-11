@@ -41,7 +41,7 @@ router.post("/", withAuth, async (req, res) => {
 });
 
 // GET ROUTE: get all bucket list items for the logged-in user.
-router.get("/", withAuth, async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const items = await BucketListItem.findAll({
       where: { user_id: req.session.user_id },
