@@ -3,9 +3,9 @@ require("dotenv").config();
 
 let sequelize;
 
-if (process.env.DATABASE_URL) {
+if (process.env.DB_URL) {
   // 🔹 Use Render database when deployed
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
+  sequelize = new Sequelize(process.env.DB_URL, {
     dialect: "postgres",
     dialectOptions: {
       ssl: {
