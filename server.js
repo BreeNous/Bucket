@@ -28,25 +28,20 @@ const hbs = exphbs.create({
 // Sets up session and connect to our Sequelize db
 // Configure and link a session object with the sequelize store
 const sess = {
-  secret: 'Super secret secret',
-  // Express session will use cookies by default, but we can specify options for those cookies by adding a cookies property to our session options.
+  secret: process.env.SESSION_SECRET, // ✅ From .env or Render env vars
   cookie: {
-    // maxAge sets the maximum age for the cookie to be valid. Here, the cookie (and session) will expire after one hour. The time should be given in milliseconds.
-    maxAge: 24 * 60 * 60 * 1000,
-    // httpOnly tells express-session to only store session cookies when the protocol being used to connect to the server is HTTP.
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
     httpOnly: true,
-    // secure tells express-session to only initialize session cookies when the protocol being used is HTTPS. Having this set to true, and running a server without encryption will result in the cookies not showing up in your developer console.
-    secure: false,
-    // sameSite tells express-session to only initialize session cookies when the referrer provided by the client matches the domain out server is hosted from.
-    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'production', // ✅ True only on Render
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // ✅ Handle cross-origin cookies properly
   },
   resave: false,
-  saveUninitialized: true,
-  // Sets up session store
+  saveUninitialized: false, // ✅ More secure
   store: new SequelizeStore({
     db: sequelize,
   }),
 };
+
 // Add express-session and store as Express.js middleware
 app.use(session(sess));
 
