@@ -5,7 +5,7 @@ let sequelize;
 
 if (process.env.NODE_ENV === 'production') {
   // 🔹 Use Render DB only in production
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
+  sequelize = new Sequelize(process.env.DB_URL, {
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
