@@ -148,8 +148,6 @@ document.querySelector("#update-image-input").addEventListener("change", (event)
   }
 });
 
-
-
 // ✅ Delete image logic
 // ✅ Handle Delete Image (but only temporarily mark it until Save is pressed)
 document.addEventListener("click", (event) => {
@@ -254,7 +252,6 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
       }
     }
 
-
     // ✅ Refresh main page image and upload button dynamically
     fetch(`/api/bucket/${id}`)
       .then((res) => res.json())
@@ -292,13 +289,10 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
       URL.revokeObjectURL(pendingImagePreviewUrl);
       pendingImagePreviewUrl = null;
     }
-
-
   } else {
     alert("❌ Failed to update item.");
   }
 });
-
 
 // ✅ Delete item
 document.addEventListener("click", async (event) => {
