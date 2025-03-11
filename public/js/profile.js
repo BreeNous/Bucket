@@ -1,3 +1,10 @@
+
+let pendingImageAction = null;
+let pendingImageFile = null;
+let pendingImagePreviewUrl = null; // ✅ To track object URL for cleanup
+let pendingImageDelete = false; // 🚨 New variable for tracking delete action
+
+
 document.addEventListener("DOMContentLoaded", async function () {
   console.log("✅ DOM loaded");
 
@@ -49,76 +56,123 @@ document.addEventListener("click", (event) => {
 });
 
 // ✅ Open modal and fill data
-document.addEventListener("click", async (event) => {
+document.addEventListener("click", function (event) {
   const updateButton = event.target.closest(".update");
   if (updateButton) {
-    const id = updateButton.dataset.id;
-    const response = await fetch(`/api/bucket/${id}`);
-    const item = await response.json();
+    pendingImageAction = null;
+    pendingImageFile = null;
 
-    document.querySelector("#update-image-input").dataset.id = id;
-    document.querySelector(".delete-image-button").dataset.id = id;
-    document.querySelector("#update-bucketlistitem-item").value = item.item;
-    document.querySelector("#update-bucketlistitem-desc").value = item.description;
-
-    ['update-bucketlistitem-item', 'update-bucketlistitem-desc'].forEach((i) =>
-      document.querySelector(`label[for="${i}"]`).classList.add('active')
-    );
-
-    const preview = document.querySelector("#update-image-preview");
-    const replaceBtn = document.querySelector("#update-image-button");
-    const deleteBtn = document.querySelector(".delete-image-button");
-
-    if (item.image) {
-      preview.src = `/api/bucket/${id}/image?timestamp=${Date.now()}`;
-      preview.style.display = "block";
-      replaceBtn.style.display = "inline-block";
-      deleteBtn.style.display = "inline-block";
-    } else {
-      preview.style.display = "none";
-      replaceBtn.style.display = "none";
-      deleteBtn.style.display = "none";
+    // ✅ Revoke old preview URL if exists
+    if (pendingImagePreviewUrl) {
+      URL.revokeObjectURL(pendingImagePreviewUrl);
+      pendingImagePreviewUrl = null;
     }
+
+    // ✅ Reset file input value to empty for consistent re-triggering
+    const fileInput = document.querySelector("#update-image-input");
+    if (fileInput) fileInput.value = "";
+
+    // ✅ Your existing code to fetch item data and populate modal
+    const id = updateButton.getAttribute("data-id");
+    console.log("Opening modal for ID:", id);
+
+    // ✅ Store correct ID for later
+    document.querySelector("#update-image-input").setAttribute("data-id", id);
+    document.querySelector(".delete-image-button").setAttribute("data-id", id);
+
+    fetch(`/api/bucket/${id}`)
+      .then((response) => response.json())
+      .then((itemData) => {
+        console.log("Item data fetched:", itemData);
+
+        const itemInput = document.querySelector("#update-bucketlistitem-item");
+        const descInput = document.querySelector("#update-bucketlistitem-desc");
+        const imagePreview = document.querySelector("#update-image-preview");
+        const replaceButton = document.querySelector("#update-image-button");
+        const deleteButton = document.querySelector(".delete-image-button");
+
+        if (itemInput) itemInput.value = itemData.item;
+        if (descInput) descInput.value = itemData.description;
+
+        ['update-bucketlistitem-item', 'update-bucketlistitem-desc'].forEach((id) => {
+          document.querySelector(`label[for="${id}"]`)?.classList.add('active');
+        });
+
+        if (itemData.image) {
+          const imageUrl = `/api/bucket/${id}/image?timestamp=${new Date().getTime()}`;
+          imagePreview.src = imageUrl;
+          imagePreview.style.display = "block";
+          replaceButton.style.display = "inline-block";
+          deleteButton.style.display = "inline-block";
+        } else {
+          imagePreview.style.display = "none";
+          replaceButton.style.display = "none";
+          deleteButton.style.display = "none";
+        }
+      })
+      .catch((err) => {
+        console.error("❌ Error fetching item data:", err);
+      });
   }
 });
+
 
 // ✅ Replace image click
 document.querySelector("#update-image-button").addEventListener("click", () => {
-  document.querySelector("#update-image-input").click();
+  const fileInput = document.querySelector("#update-image-input");
+  if (fileInput) fileInput.click();
 });
 
-// ✅ Handle image replacement
-document.querySelector("#update-image-input").addEventListener("change", async (event) => {
-  const id = event.target.dataset.id;
+document.querySelector("#update-image-input").addEventListener("change", (event) => {
   const file = event.target.files[0];
-  if (!file) return;
+  const preview = document.querySelector("#update-image-preview");
 
-  const formData = new FormData();
-  formData.append("image", file);
+  if (file) {
+    // ✅ If there's an old object URL, revoke it before creating a new one
+    if (pendingImagePreviewUrl) {
+      URL.revokeObjectURL(pendingImagePreviewUrl);
+    }
 
-  const response = await fetch(`/api/bucket/${id}/upload`, { method: "POST", body: formData });
-  if (response.ok) {
-    const imageURL = `/api/bucket/${id}/image?timestamp=${Date.now()}`;
-    document.querySelector("#update-image-preview").src = imageURL;
-    document.querySelector("#update-image-preview").style.display = "block";
-    document.querySelector(`#image-container-${id}`).innerHTML = `<img src="${imageURL}" style="width: auto; max-height: 200px;">`;
-    document.querySelector(`.upload-button[data-id="${id}"]`).style.display = "none";
+    pendingImageAction = 'replace';
+    pendingImageFile = file;
+
+    // ✅ Create and store new object URL for preview
+    pendingImagePreviewUrl = URL.createObjectURL(file);
+
+    // ✅ Display new image preview
+    preview.src = pendingImagePreviewUrl;
+    preview.style.display = "block";
+
+    // ✅ Show delete button since an image is now present
+    document.querySelector(".delete-image-button").style.display = "inline-block";
   }
 });
+
+
 
 // ✅ Delete image logic
-document.addEventListener("click", async (event) => {
+// ✅ Handle Delete Image (but only temporarily mark it until Save is pressed)
+document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-image-button")) {
-    const id = event.target.dataset.id;
-    const response = await fetch(`/api/bucket/${id}/image`, { method: "DELETE" });
-    if (response.ok) {
-      document.querySelector("#update-image-preview").style.display = "none";
-      document.querySelector(`#image-container-${id}`).innerHTML = `<p>No image uploaded yet.</p>`;
-      document.querySelector(`.upload-button[data-id="${id}"]`).style.display = "block";
-      event.target.style.display = "none";
+    console.log("🗑️ Image marked for deletion, awaiting Save confirmation.");
+    pendingImageDelete = true; // ✅ Mark image for deletion
+
+    // ✅ Remove preview from modal
+    const imagePreview = document.querySelector("#update-image-preview");
+    if (imagePreview) {
+      imagePreview.src = "";
+      imagePreview.style.display = "none";
     }
+
+    // ✅ Also hide delete button itself
+    event.target.style.display = "none";
+
+    // ✅ Optionally also hide replace button (optional, if you want)
+    const replaceButton = document.querySelector("#update-image-button");
+    if (replaceButton) replaceButton.style.display = "none";
   }
 });
+
 
 // ✅ Checkbox completion update
 document.addEventListener("change", async (event) => {
@@ -136,17 +190,115 @@ document.addEventListener("change", async (event) => {
 // ✅ Handle item update via modal
 document.querySelector("#update-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const id = document.querySelector("#update-image-input").dataset.id;
-  const item = document.querySelector("#update-bucketlistitem-item").value.trim();
-  const desc = document.querySelector("#update-bucketlistitem-desc").value.trim();
 
+  const id = document.querySelector("#update-image-input").getAttribute("data-id");
+  const updatedItem = document.querySelector("#update-bucketlistitem-item").value.trim();
+  const updatedDescription = document.querySelector("#update-bucketlistitem-desc").value.trim();
+
+  if (!id || !updatedItem || !updatedDescription) return;
+
+  console.log(`🔥 Submitting form for item ID: ${id}`);
+
+  // ✅ First, update title and description
   const response = await fetch(`/api/bucket/${id}`, {
     method: "PUT",
+    body: JSON.stringify({ item: updatedItem, description: updatedDescription }),
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ item, description: desc }),
   });
-  if (response.ok) location.reload(); // ✅ Simple reload to refresh updated data
+
+  if (response.ok) {
+    console.log("✅ Successfully updated bucket list item.");
+
+    // ✅ Now if there is a pending image to upload, do that too
+    if (pendingImageFile) {
+      console.log("📤 Uploading pending image file...");
+
+      const formData = new FormData();
+      formData.append("image", pendingImageFile);
+
+      const uploadResponse = await fetch(`/api/bucket/${id}/upload`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (uploadResponse.ok) {
+        console.log("✅ Image uploaded successfully.");
+      } else {
+        console.error("❌ Failed to upload image.");
+        alert("Failed to upload image.");
+      }
+    }
+
+    // ✅ Handle pending image deletion
+    if (pendingImageDelete) {
+      console.log("🗑️ Proceeding with image deletion on save...");
+
+      const deleteResponse = await fetch(`/api/bucket/${id}/image`, { method: "DELETE" });
+
+      if (deleteResponse.ok) {
+        console.log("✅ Image deleted successfully on save.");
+
+        // ✅ Update the main profile page dynamically to reflect removal
+        const profileImageContainer = document.querySelector(`#image-container-${id}`);
+        const profileUploadButton = document.querySelector(`.upload-button[data-id="${id}"]`);
+
+        if (profileImageContainer) {
+          profileImageContainer.innerHTML = `<p id="no-image-text-${id}">No image uploaded yet.</p>`;
+        }
+
+        if (profileUploadButton) profileUploadButton.style.display = "block"; // ✅ Show upload button again
+
+      } else {
+        console.error("❌ Failed to delete image on save.");
+        alert("Failed to delete image.");
+      }
+    }
+
+
+    // ✅ Refresh main page image and upload button dynamically
+    fetch(`/api/bucket/${id}`)
+      .then((res) => res.json())
+      .then((updatedData) => {
+        const imageContainer = document.querySelector(`#image-container-${id}`);
+        const uploadButton = document.querySelector(`.upload-button[data-id="${id}"]`);
+
+        if (updatedData.image) {
+          // ✅ If image now exists, show it and hide upload button
+          if (imageContainer) {
+            imageContainer.innerHTML = `
+              <img src="/api/bucket/${id}/image?timestamp=${new Date().getTime()}" 
+                alt="Bucket List Image" style="max-height: 200px; width: auto;">
+            `;
+          }
+          if (uploadButton) uploadButton.style.display = "none";
+        } else {
+          // ❌ If image doesn't exist, show "no image" text and upload button
+          if (imageContainer) imageContainer.innerHTML = `<p>No image uploaded yet.</p>`;
+          if (uploadButton) uploadButton.style.display = "block";
+        }
+      });
+
+    // ✅ Close Modal After Updating
+    setTimeout(() => {
+      const modalInstance = M.Modal.getInstance(document.querySelector("#update-modal"));
+      modalInstance.close();
+    }, 200);
+
+    // ✅ Cleanup pending variables
+    pendingImageAction = null;
+    pendingImageFile = null;
+    pendingImageDelete = false;
+    if (pendingImagePreviewUrl) {
+      URL.revokeObjectURL(pendingImagePreviewUrl);
+      pendingImagePreviewUrl = null;
+    }
+
+
+  } else {
+    alert("❌ Failed to update item.");
+  }
 });
+
 
 // ✅ Delete item
 document.addEventListener("click", async (event) => {
@@ -168,6 +320,12 @@ document.querySelector(".new-project-form").addEventListener("submit", async (ev
     body: JSON.stringify({ item, description: desc }),
   });
   if (response.ok) location.reload();
+});
+
+// ✅ Open Delete Account Modal
+document.querySelector('#delete-account-btn').addEventListener('click', () => {
+  const modalInstance = M.Modal.getInstance(document.querySelector('#deleteAccountModal'));
+  modalInstance.open();
 });
 
 // ✅ Logout & delete account

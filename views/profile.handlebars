@@ -10,13 +10,15 @@
     <div class="col s3" style="display: flex; flex-direction:row-reverse; padding-right: 30px; align-items:center;">
       <!-- Account Settings Dropdown Trigger -->
       <a class="dropdown-trigger btn cyan darken-3 white-text" href="#" data-target="account-dropdown">
-        <i class="fa-solid fa-user"></i></a>
+        <i class="fa-solid fa-user"></i>
+      </a>
 
       <!-- Dropdown Content -->
       <ul id="account-dropdown" class="dropdown-content">
         <li><a href="#" id="logout-btn">Logout</a></li>
         <li><a href="#" id="delete-account-btn">Delete Account</a></li>
       </ul>
+
 
     </div>
   </header>
@@ -129,64 +131,67 @@
 
 
     {{!-- Update/ edit pop-up form --}}
-<div id="update-modal" class="modal">
-  <div class="modal-content">
+    <div id="update-modal" class="modal">
+      <div class="modal-content">
 
-    <div style="display: flex; justify-content:space-between; align-items:center;">
-      <h3>Edit Idea:</h3>
-      <button type="button" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Back</button>
-    </div>
+        <div style="display: flex; justify-content:space-between; align-items:center;">
+          <h3>Edit Idea:</h3>
+          <button type="button" class="modal-close waves-effect waves-light btn cyan darken-3 white-text">Back</button>
+        </div>
 
-    <form id="update-form" class="card-panel white lighten-5">
+        <form id="update-form" class="card-panel white lighten-5">
 
-      {{!-- Title Input --}}
-      <div class="input-field">
-        <input id="update-bucketlistitem-item" type="text" />
-        <label for="update-bucketlistitem-item">Idea Title</label>
-      </div>
-
-      {{!-- Description Input --}}
-      <div class="input-field">
-        <input id="update-bucketlistitem-desc" type="text" />
-        <label for="update-bucketlistitem-desc">Description</label>
-      </div>
-
-      {{!-- Image preview section --}}
-      <div class="row" style="display: flex; align-items: stretch;">
-        <div class="col s9" id="update-image-container" style="text-align: center; display:flex; flex-direction:column;">
-          <img id="update-image-preview" src="" alt="Bucket List Image"
-            style="max-width: 150px; max-height: 150px; margin-bottom: 10px; display: none;"> <!-- Default hidden -->
-
-          <div class="button-group" style="display: flex; gap: 10px; justify-content:left; align-items: center;">
-
-            <input type="file" id="update-image-input" accept="image/*" style="display: none;">
-
-            <button type="button" id="update-image-button"
-              class="waves-effect waves-light btn cyan darken-3 white-text">
-              Replace Image
-            </button>
-
-            <button type="button" class="waves-effect waves-light btn red darken-3 white-text delete-image-button"
-              data-id="">
-              Delete Image
-            </button>
-            
+          {{!-- Title Input --}}
+          <div class="input-field">
+            <input id="update-bucketlistitem-item" type="text" />
+            <label for="update-bucketlistitem-item">Idea Title</label>
           </div>
-        </div>
 
-        <div class="col s3" style="display: flex; justify-content: flex-end; margin-top: 10px; flex-direction:column;">
-          <button type="submit" class="modal-close waves-effect waves-light btn cyan darken-3 white-text"
-            id="save-updates">
-            Save Changes
-          </button>
-        </div>
+          {{!-- Description Input --}}
+          <div class="input-field">
+            <input id="update-bucketlistitem-desc" type="text" />
+            <label for="update-bucketlistitem-desc">Description</label>
+          </div>
 
-      </div>  
+          {{!-- Image preview section --}}
+          <div class="row" style="display: flex; align-items: stretch;">
+            <div class="col s9" id="update-image-container"
+              style="text-align: center; display:flex; flex-direction:column;">
+              <img id="update-image-preview" src="" alt="Bucket List Image"
+                style="max-width: 150px; max-height: 150px; object-fit: contain; margin-bottom: 10px; display: none;">
 
-    </form>
-  </div>
-</div>
+              <!-- Default hidden -->
 
+              <div class="button-group" style="display: flex; gap: 10px; justify-content:left; align-items: center;">
+
+                <input type="file" id="update-image-input" accept="image/*" style="display: none;">
+
+                <button type="button" id="update-image-button"
+                  class="waves-effect waves-light btn cyan darken-3 white-text">
+                  Replace Image
+                </button>
+
+                <button type="button" class="waves-effect waves-light btn red darken-3 white-text delete-image-button"
+                  data-id="">
+                  Delete Image
+                </button>
+
+              </div>
+            </div>
+
+            <div class="col s3"
+              style="display: flex; justify-content: flex-end; margin-top: 10px; flex-direction:column;">
+              <button type="submit" class="modal-close waves-effect waves-light btn cyan darken-3 white-text"
+                id="save-updates">
+                Save Changes
+              </button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
 
 
     <!-- Delete Account Confirmation Modal -->
@@ -197,10 +202,12 @@
       </div>
       <div class="modal-footer">
         <button class="modal-close waves-effect waves-green btn-flat">Cancel</button>
-        <button id="confirm-delete-account" class="waves-effect waves-red btn red darken-3 white-text">Delete
-          Account</button>
+        <button id="confirm-delete-account" class="waves-effect waves-red btn red darken-3 white-text">
+          Delete Account
+        </button>
       </div>
     </div>
+
 
   </div>
 

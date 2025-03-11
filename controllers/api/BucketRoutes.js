@@ -208,26 +208,41 @@ router.delete("/:id/image", withAuth, async (req, res) => {
   }
 });
 
-// DELETE ROUTE: delete a bucketlist item.
+// DELETE ROUTE: delete a bucketlist item and its image from disk
 router.delete("/:id", withAuth, async (req, res) => {
   try {
-    const BucketListItemData = await BucketListItem.destroy({
+    const { id } = req.params;
+
+    // Find the bucket list item to get its image path before deletion
+    const item = await BucketListItem.findOne({
+      where: { id, user_id: req.session.user_id },
+    });
+
+    if (!item) {
+      return res.status(404).json({ message: "No BucketListItem found with this id!" });
+    }
+
+    // If there's an associated image, delete it from disk
+    if (item.image) {
+      const imagePath = path.resolve(__dirname, "../../", item.image);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath); // ✅ Delete image file from disk
+        console.log(`🗑️ Deleted image file from disk: ${imagePath}`);
+      }
+    }
+
+    // Now delete the bucket list item from DB
+    await BucketListItem.destroy({
       where: {
-        id: req.params.id,
+        id: id,
         user_id: req.session.user_id,
       },
     });
 
-    if (!BucketListItemData) {
-      res
-        .status(404)
-        .json({ message: "No BucketListItem found with this id!" });
-      return;
-    }
-
-    res.status(200).json(BucketListItemData);
+    res.status(200).json({ message: "Bucket list item and associated image deleted successfully." });
   } catch (err) {
-    res.status(500).json(err);
+    console.error("❌ Error deleting bucket list item and image:", err);
+    res.status(500).json({ message: "Failed to delete item." });
   }
 });
 
