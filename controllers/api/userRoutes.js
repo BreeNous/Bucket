@@ -51,6 +51,17 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// GET route to render login page
+router.get('/login', (req, res) => {
+  // Redirect to profile if already logged in
+  if (req.session.logged_in) {
+    return res.redirect('/profile');
+  }
+  // Render login page
+  res.render('login');
+});
+
+
 // post route for logout
 router.post('/logout', (req, res) => {
   if (req.session.logged_in) {
