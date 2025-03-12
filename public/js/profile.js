@@ -14,7 +14,10 @@ document.addEventListener("DOMContentLoaded", async function () {
   const dropdownElems = document.querySelectorAll(".dropdown-trigger");
   M.Dropdown.init(dropdownElems, { constrainWidth: false });
 
-  const response = await fetch(`/api/bucket`);
+  const response = await fetch(`/api/bucket`, {
+    method: 'GET',
+    credentials: 'include' // Include session cookie
+  });
   if (response.ok) {
     const bucketListItems = await response.json();
     bucketListItems.forEach((item) => {
@@ -39,7 +42,11 @@ document.addEventListener("change", async (event) => {
 
     const formData = new FormData();
     formData.append("image", file);
-    const response = await fetch(`/api/bucket/${id}/upload`, { method: "POST", body: formData });
+    const response = await fetch(`/api/bucket/${id}/upload`, {
+       method: "POST", 
+       body: formData,
+       credentials: 'include'
+    });
     if (response.ok) {
       const imageContainer = document.querySelector(`#image-container-${id}`);
       imageContainer.innerHTML = `<img src="/api/bucket/${id}/image?timestamp=${Date.now()}" style="width: auto; max-height: 200px;">`;
@@ -181,6 +188,7 @@ document.addEventListener("change", async (event) => {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ completed }),
+      credentials: 'include'
     });
   }
 });
@@ -202,6 +210,7 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
     method: "PUT",
     body: JSON.stringify({ item: updatedItem, description: updatedDescription }),
     headers: { "Content-Type": "application/json" },
+    credentials: 'include'
   });
 
   if (response.ok) {
@@ -217,6 +226,7 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
       const uploadResponse = await fetch(`/api/bucket/${id}/upload`, {
         method: "POST",
         body: formData,
+        credentials: 'include'
       });
 
       if (uploadResponse.ok) {
@@ -231,7 +241,10 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
     if (pendingImageDelete) {
       console.log("🗑️ Proceeding with image deletion on save...");
 
-      const deleteResponse = await fetch(`/api/bucket/${id}/image`, { method: "DELETE" });
+      const deleteResponse = await fetch(`/api/bucket/${id}/image`, { 
+        method: "DELETE",
+        credentials: 'include' 
+      });
 
       if (deleteResponse.ok) {
         console.log("✅ Image deleted successfully on save.");
@@ -298,7 +311,10 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
 document.addEventListener("click", async (event) => {
   if (event.target.closest(".delete")) {
     const id = event.target.closest(".delete").dataset.id;
-    const response = await fetch(`/api/bucket/${id}`, { method: "DELETE" });
+    const response = await fetch(`/api/bucket/${id}`, {
+      method: "DELETE", 
+      credentials: 'include'
+    });
     if (response.ok) location.reload();
   }
 });
@@ -312,6 +328,7 @@ document.querySelector(".new-project-form").addEventListener("submit", async (ev
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ item, description: desc }),
+    credentials: 'include'
   });
   if (response.ok) location.reload();
 });
@@ -324,11 +341,17 @@ document.querySelector('#delete-account-btn').addEventListener('click', () => {
 
 // ✅ Logout & delete account
 document.querySelector("#logout-btn").addEventListener("click", async () => {
-  await fetch('/api/users/logout', { method: 'POST' });
+  await fetch('/api/users/logout', {
+    method: 'POST',
+    credentials: 'include'
+  });
   location.replace('/');
 });
 document.querySelector("#confirm-delete-account").addEventListener("click", async () => {
-  await fetch('/api/users/delete-account', { method: 'DELETE' });
+  await fetch('/api/users/delete-account', {
+    method: 'DELETE',
+    credentials: 'include'
+  });
   location.replace('/');
 });
 
