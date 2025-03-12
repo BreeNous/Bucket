@@ -7,6 +7,7 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
+const cors = require('cors');
 
 const sequelize = require('./config/connection');
 // Create a new sequelize store using the express-session package
@@ -30,6 +31,7 @@ const hbs = exphbs.create({
 const sess = {
   secret: process.env.SESSION_SECRET, // ✅ From .env or Render env vars
   cookie: {
+    domain: 'bucket-c1zu.onrender.com',
     maxAge: 24 * 60 * 60 * 1000, // 1 day
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // ✅ True only on Render
@@ -44,6 +46,11 @@ const sess = {
 
 // Add express-session and store as Express.js middleware
 app.use(session(sess));
+
+app.use(cors({
+  origin: 'https://bucket-c1zu.onrender.com', // Your frontend URL
+  credentials: true // Allow cookies
+}));
 
 // Inform Express.js on which template engine to use
 app.engine('handlebars', hbs.engine);

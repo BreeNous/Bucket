@@ -87,7 +87,9 @@ document.addEventListener("click", function (event) {
     document.querySelector("#update-image-input").setAttribute("data-id", id);
     document.querySelector(".delete-image-button").setAttribute("data-id", id);
 
-    fetch(`/api/bucket/${id}`)
+    fetch(`/api/bucket/${id}`, {
+      credentials: 'include'
+    })
       .then((response) => response.json())
       .then((itemData) => {
         console.log("Item data fetched:", itemData);
@@ -266,7 +268,9 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
     }
 
     // ✅ Refresh main page image and upload button dynamically
-    fetch(`/api/bucket/${id}`)
+    fetch(`/api/bucket/${id}`, {
+      credentials: 'include'
+    })
       .then((res) => res.json())
       .then((updatedData) => {
         const imageContainer = document.querySelector(`#image-container-${id}`);
