@@ -1,3 +1,5 @@
+console.log("🌐 Current page:", window.location.href);
+
 const loginFormHandler = async (event) => {
   event.preventDefault();
 
@@ -16,7 +18,7 @@ const loginFormHandler = async (event) => {
 
     if (response.ok) {
       // If successful, redirect the browser to the profile page
-      document.location.replace('/profile');
+      window.location.href = '/profile';
     } else {
       alert(response.statusText);
     }

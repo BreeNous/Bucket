@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { User, BucketListItem } = require('../../models');
 const withAuth = require('../../utils/auth');
-const { store } = require('../../config/session');
 
 // post route for user data to homepage
 router.post('/', async (req, res) => {
@@ -99,7 +98,5 @@ router.get('/session-check', async (req, res) => {
     res.status(500).json({ message: "Error fetching sessions." });
   }
 });
-
-
 
 module.exports = router;
