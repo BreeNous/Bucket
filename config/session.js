@@ -20,4 +20,4 @@ const sess = {
   store,
 };
 
-module.exports = { sess, store };
+module.exports = { sess, store, };
