@@ -24,11 +24,18 @@ const upload = multer({ storage });
 
 // POST ROUTE: for creating a new bucketlist item.
 router.post("/", withAuth, async (req, res) => {
+
   try {
+  console.log("🔑 req.session:", req.session); // ✅ Session check
+  console.log("📦 req.body:", req.body);       // ✅ Body check
+
     const newBucketListItem = await BucketListItem.create({
       ...req.body,
       user_id: req.session.user_id,
     });
+
+    console.log("✅ Created BucketListItem:", newBucketListItem); 
+
     if (!newBucketListItem) {
       res.status(404).json({ message: "No BucketListItem was created!" });
       return;
@@ -36,6 +43,8 @@ router.post("/", withAuth, async (req, res) => {
 
     res.status(200).json(newBucketListItem);
   } catch (err) {
+    console.error("❌ Error creating BucketListItem:", err);
+    console.error("❌ Sequelize error full:", JSON.stringify(err, Object.getOwnPropertyNames(err))); // ✅ See ALL details
     res.status(500).json(err);
   }
 });
