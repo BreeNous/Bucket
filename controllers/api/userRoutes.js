@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { User, BucketListItem } = require('../../models');
 const withAuth = require('../../utils/auth');
+const { store } = require('../../config/session');
 
 // post route for user data to homepage
 router.post('/', async (req, res) => {
@@ -87,7 +88,7 @@ router.delete('/delete-account', withAuth, async (req, res) => {
 });
 
 // temp route
-const { Session } = require('connect-session-sequelize')(session.Store); // Import Sequelize store's model
+const Session = store.session.Model;
 
 router.get('/session-check', async (req, res) => {
   try {
