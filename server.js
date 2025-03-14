@@ -1,16 +1,12 @@
 // Local Modules
 const routes = require('./controllers');
 const helpers = require('./utils/helpers');
+const { sess, store } = require('./config/session');
 
 // Third-Party Modules
 const path = require('path');
 const express = require('express');
-const session = require('express-session');
 const exphbs = require('express-handlebars');
-
-const sequelize = require('./config/connection');
-// Create a new sequelize store using the express-session package
-const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Initialize an instance of Express.js
 const app = express();
@@ -25,24 +21,10 @@ const hbs = exphbs.create({
 
 });
 
-// Sets up session and connect to our Sequelize db
-// Configure and link a session object with the sequelize store
-const sess = {
-  secret: process.env.SESSION_SECRET, // ✅ From .env or Render env vars
-  cookie: {
-    maxAge: 24 * 60 * 60 * 1000, // 1 day
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // ✅ True only on Render
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // ✅ Handle cross-origin cookies properly
-  },
-  resave: false,
-  saveUninitialized: false, // ✅ More secure
-  store: new SequelizeStore({
-    db: sequelize,
-  }),
-};
+// Sync session store
+store.sync();
 
-// Add express-session and store as Express.js middleware
+// Use the session middleware
 app.use(session(sess));
 
 // Inform Express.js on which template engine to use
