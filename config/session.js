@@ -3,10 +3,6 @@ const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./connection'); // ✅ Reuse the connection
 
-const store = new SequelizeStore({
-  db: sequelize,
-});
-
 const sess = {
   secret: process.env.SESSION_SECRET,
   cookie: {
@@ -17,7 +13,9 @@ const sess = {
   },
   resave: false,
   saveUninitialized: false,
-  store,
+  store: new SequelizeStore({
+    db: sequelize,
+  }),
 };
 
-module.exports = { sess, store, };
+module.exports = { sess };
