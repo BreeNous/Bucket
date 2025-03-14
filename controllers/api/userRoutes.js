@@ -86,5 +86,21 @@ router.delete('/delete-account', withAuth, async (req, res) => {
   }
 });
 
+// temp route
+const { Session } = require('connect-session-sequelize')(session.Store); // Import Sequelize store's model
+
+router.get('/session-check', async (req, res) => {
+  try {
+    const allSessions = await Session.findAll();
+    console.log("📦 All stored sessions:", allSessions.map(s => s.dataValues));
+
+    res.status(200).json(allSessions.map(s => s.dataValues));
+  } catch (err) {
+    console.error("❌ Error fetching sessions:", err);
+    res.status(500).json({ message: "Error fetching sessions." });
+  }
+});
+
+
 
 module.exports = router;
