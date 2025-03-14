@@ -9,11 +9,12 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const sequelize = require('./config/connection');
 
+// Initialize an instance of Express.js
+const app = express();
+
 // tell express to trust Render's proxy allowing cookies to work properly in HTTPS.
 app.set('trust proxy', 1); 
 
-// Initialize an instance of Express.js
-const app = express();
 // Specify on which port the Express.js server will run
 const PORT = process.env.PORT || 3001;
 
