@@ -88,8 +88,6 @@ router.delete('/delete-account', withAuth, async (req, res) => {
 });
 
 // temp route
-const Session = store.session.Model;
-
 router.get('/session-check', async (req, res) => {
   try {
     const allSessions = await Session.findAll();
