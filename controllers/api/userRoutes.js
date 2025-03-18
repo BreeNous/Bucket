@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { User, BucketListItem } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// post route for user data to homepage
+// post route for user data to landing
 router.post('/', async (req, res) => {
   try {
     const userData = await User.create(req.body);

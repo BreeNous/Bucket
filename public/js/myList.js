@@ -8,9 +8,6 @@ let pendingImageDelete = false; // 🚨 New variable for tracking delete action
 document.addEventListener("DOMContentLoaded", async function () {
   console.log("✅ DOM loaded");
 
-  const modals = document.querySelectorAll(".modal");
-  M.Modal.init(modals);
-
   const dropdownElems = document.querySelectorAll(".dropdown-trigger");
   M.Dropdown.init(dropdownElems, { constrainWidth: false });
 
@@ -251,15 +248,15 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
       if (deleteResponse.ok) {
         console.log("✅ Image deleted successfully on save.");
 
-        // ✅ Update the main profile page dynamically to reflect removal
-        const profileImageContainer = document.querySelector(`#image-container-${id}`);
-        const profileUploadButton = document.querySelector(`.upload-button[data-id="${id}"]`);
+        // ✅ Update the main myList page dynamically to reflect removal
+        const myListImageContainer = document.querySelector(`#image-container-${id}`);
+        const myListUploadButton = document.querySelector(`.upload-button[data-id="${id}"]`);
 
-        if (profileImageContainer) {
-          profileImageContainer.innerHTML = `<p id="no-image-text-${id}">No image uploaded yet.</p>`;
+        if (myListImageContainer) {
+          myListImageContainer.innerHTML = `<p id="no-image-text-${id}">No image uploaded yet.</p>`;
         }
 
-        if (profileUploadButton) profileUploadButton.style.display = "block"; // ✅ Show upload button again
+        if (myListUploadButton) myListUploadButton.style.display = "block"; // ✅ Show upload button again
 
       } else {
         console.error("❌ Failed to delete image on save.");

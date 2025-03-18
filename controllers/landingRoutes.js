@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     const BucketListItems = BucketListItemData.map((BucketListItem) => BucketListItem.get({ plain: true }));
 
     // Pass serialized data and session flag into template
-    res.render('homePage', { 
+    res.render('landing', { 
       BucketListItems, 
       logged_in: req.session.logged_in 
     });
@@ -50,7 +50,7 @@ router.get('/BucketListItem/:id', async (req, res) => {
 });
 
 // Use withAuth middleware to prevent access to route
-router.get('/profile', withAuth, async (req, res) => {
+router.get('/myList', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
@@ -62,7 +62,7 @@ router.get('/profile', withAuth, async (req, res) => {
 
     console.log(user);
 
-    res.render('profile', {
+    res.render('myList', {
       ...user,
       logged_in: true
     });

@@ -1,0 +1,63 @@
+/* General Page Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Main Content Box */
+.transparent-box {
+    background: rgba(255, 255, 255, 0.9);
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Typography */
+.title-text {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.main-title {
+    font-size: 5em;
+}
+
+.description {
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+/* Button Section */
+.button-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+
+/* OR Text */
+.or-text {
+    font-size: 1.5em;
+}
+
+/* Divider */
+.divider-line {
+    width: 80%;
+    background-color: black;
+    margin: 10px auto;
+}
+
+/* Modal Styling */
+#loginModal, #signupModal {
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    border-radius: 10px;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    position: absolute;  /* Ensure correct positioning */
+}
