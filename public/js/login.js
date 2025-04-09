@@ -17,8 +17,8 @@ const loginFormHandler = async (event) => {
     });
 
     if (response.ok) {
-      // If successful, redirect the browser to the profile page
-      window.location.href = '/profile';
+      // If successful, redirect the browser to the myList page
+      window.location.href = '/myList';
     } else {
       alert(response.statusText);
     }

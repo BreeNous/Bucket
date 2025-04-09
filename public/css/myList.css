@@ -1,0 +1,151 @@
+
+
+.upload-button.hidden {
+    display: none !important;
+  }  
+
+/* Only targets the delete account modal */
+#deleteAccountModal {
+    position: fixed;
+    /* Ensure it's fixed relative to viewport */
+    width: 500px;
+    /* Adjust width */
+    max-height: 400px;
+    /* Adjust height */
+    height: auto;
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1000;
+    /* Make sure it's on top */
+}
+
+/* Center buttons horizontally with equal spacing */
+#deleteAccountModal .modal-footer {
+    display: flex;
+    justify-content: center;
+    /* Center horizontally */
+    gap: 20px;
+    /* Space between buttons */
+    border-top: none;
+    /* Optional: remove top border if Materialize adds it */
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
+
+/* Optional: make sure buttons are same height and width (optional for style) */
+#deleteAccountModal .modal-footer .btn {
+    min-width: 100px;
+    /* Consistent button width */
+    text-align: center;
+}
+
+.responsive-desc {
+    overflow-wrap: break-word;
+}
+
+/* Small screens (mobile) */
+@media only screen and (max-width: 600px) {
+    .responsive-desc {
+      max-width: 135px;
+      max-height: 115px;
+      overflow: scroll;
+      margin-top: 0px;
+      margin-bottom: 5px;
+     
+      font-size: small;
+      padding-right: 6px;
+    }
+    .resp-text-buttons-box {
+        width: 100%;
+    }
+    .resp-btn-box {
+        margin-bottom: 10px;
+    }
+    .responsive-idea {
+        height: 200px;
+    }
+    .idea-image {
+        height: 200px;
+        width: 200px;
+    }
+    .responsive-title {
+        font-size: medium !important;
+        margin-top: 10px;
+    }
+    .resp-buttons {
+        width: 26px !important;
+        height: 26px !important;
+        padding: 0 !important;
+        min-width: 26px !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    .resp-icons {
+        scale: 70% !important;
+    }
+  }
+  
+  /* Medium screens (tablet) */
+  @media only screen and (min-width: 601px) and (max-width: 992px) {
+    .responsive-desc {
+      font-size: x-small;
+      width: 130px;
+      margin-top: 0px;
+      margin-bottom: 5px;
+      margin-right: 10px;
+    }
+    .responsive-idea {
+     margin-left: 0 !important;
+     height: 150px !important;
+    }
+    .idea-image {
+        max-width: 150px;
+        max-height: 150px;
+    }
+    .responsive-title {
+        font-size: medium !important;
+        margin-top: 5px;
+        
+    }
+    .resp-text-buttons-box {
+        max-height: 150px;
+        width: 100%;
+        padding-bottom: 5px;
+    }
+    .resp-buttons {
+        width: 22px !important;
+        height: 22px !important;
+        padding: 0 !important;
+        min-width: 22px !important;
+    }
+    .resp-icons {
+        scale: 55% !important;
+    }
+  }
+  
+  /* Large screens (desktop and up) */
+  @media only screen and (min-width: 993px) {
+    .responsive-desc {
+      max-width: 300px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      max-height: 100px;
+      overflow: auto;
+      white-space: normal;
+      margin-right: 10px;
+    }
+    .responsive-idea{
+        height: 200px;
+    }
+    .responsive-title {
+        margin-top: 10px;
+    }
+    .resp-btn-box {
+        margin-bottom: 10px;
+    }
+    .resp-text-buttons-box {
+        width: 100%;
+    }
+    
+}
+

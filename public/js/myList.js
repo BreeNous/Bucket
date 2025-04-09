@@ -8,9 +8,6 @@ let pendingImageDelete = false; // 🚨 New variable for tracking delete action
 document.addEventListener("DOMContentLoaded", async function () {
   console.log("✅ DOM loaded");
 
-  const modals = document.querySelectorAll(".modal");
-  M.Modal.init(modals);
-
   const dropdownElems = document.querySelectorAll(".dropdown-trigger");
   M.Dropdown.init(dropdownElems, { constrainWidth: false });
 
@@ -25,9 +22,9 @@ document.addEventListener("DOMContentLoaded", async function () {
       const uploadButton = document.querySelector(`.upload-button[data-id="${item.id}"]`);
       if (item.image) {
         imageContainer.innerHTML = `<img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="Bucket List Image" style="width: auto; max-height: 200px;">`;
-        uploadButton.style.display = "none";
+        uploadButton.classList.add("hidden");
       } else {
-        uploadButton.style.display = "block";
+        uploadButton.classList.remove("hidden");
       }
     });
   }
@@ -43,14 +40,14 @@ document.addEventListener("change", async (event) => {
     const formData = new FormData();
     formData.append("image", file);
     const response = await fetch(`/api/bucket/${id}/upload`, {
-       method: "POST", 
-       body: formData,
-       credentials: 'include'
+      method: "POST",
+      body: formData,
+      credentials: 'include'
     });
     if (response.ok) {
       const imageContainer = document.querySelector(`#image-container-${id}`);
       imageContainer.innerHTML = `<img src="/api/bucket/${id}/image?timestamp=${Date.now()}" style="width: auto; max-height: 200px;">`;
-      document.querySelector(`.upload-button[data-id="${id}"]`).style.display = "none";
+      document.querySelector(`.upload-button[data-id="${id}"]`).classList.add("hidden");
     }
   }
 });
@@ -243,23 +240,23 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
     if (pendingImageDelete) {
       console.log("🗑️ Proceeding with image deletion on save...");
 
-      const deleteResponse = await fetch(`/api/bucket/${id}/image`, { 
+      const deleteResponse = await fetch(`/api/bucket/${id}/image`, {
         method: "DELETE",
-        credentials: 'include' 
+        credentials: 'include'
       });
 
       if (deleteResponse.ok) {
         console.log("✅ Image deleted successfully on save.");
 
-        // ✅ Update the main profile page dynamically to reflect removal
-        const profileImageContainer = document.querySelector(`#image-container-${id}`);
-        const profileUploadButton = document.querySelector(`.upload-button[data-id="${id}"]`);
+        // ✅ Update the main myList page dynamically to reflect removal
+        const myListImageContainer = document.querySelector(`#image-container-${id}`);
+        const myListUploadButton = document.querySelector(`.upload-button[data-id="${id}"]`);
 
-        if (profileImageContainer) {
-          profileImageContainer.innerHTML = `<p id="no-image-text-${id}">No image uploaded yet.</p>`;
+        if (myListImageContainer) {
+          myListImageContainer.innerHTML = `<p id="no-image-text-${id}">No image uploaded yet.</p>`;
         }
 
-        if (profileUploadButton) profileUploadButton.style.display = "block"; // ✅ Show upload button again
+        if (myListUploadButton) myListUploadButton.classList.remove("hidden"); // ✅ Show upload button again
 
       } else {
         console.error("❌ Failed to delete image on save.");
@@ -284,11 +281,23 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
                 alt="Bucket List Image" style="max-height: 200px; width: auto;">
             `;
           }
-          if (uploadButton) uploadButton.style.display = "none";
+          uploadButton.classList.add("hidden");
+
         } else {
           // ❌ If image doesn't exist, show "no image" text and upload button
-          if (imageContainer) imageContainer.innerHTML = `<p>No image uploaded yet.</p>`;
-          if (uploadButton) uploadButton.style.display = "block";
+          if (imageContainer) {
+            imageContainer.innerHTML = `
+              <p id="no-image-text-${id}" class="grey-text text-darken-1 idea-image"
+                 style="width: 200px; height: 200px; border-style: dashed; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0;">
+                Click the 
+                <span style="display: block;"><i class="fa-solid fa-image"></i> icon</span>
+                to add a pic!
+              </p>
+            `;
+          }
+
+          uploadButton.classList.remove("hidden");
+
         }
       });
 
@@ -316,7 +325,7 @@ document.addEventListener("click", async (event) => {
   if (event.target.closest(".delete")) {
     const id = event.target.closest(".delete").dataset.id;
     const response = await fetch(`/api/bucket/${id}`, {
-      method: "DELETE", 
+      method: "DELETE",
       credentials: 'include'
     });
     if (response.ok) location.reload();

@@ -1,0 +1,58 @@
+<video autoplay muted loop style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+    <source src="/media/BucketListVid.mp4" type="video/mp4">
+</video>
+
+<div class="container-fluid valign-wrapper" style="height: 100vh; display: flex; justify-content: center; align-items: center; padding: 10px;">
+    <div class="transparent-box" style="margin: auto;">
+        <div class="row valign-wrapper content-container">
+            <div class="col s12 center-align">
+                <h5 class="grey-text text-darken-4 title-text">Welcome to</h5>
+                <h4 class="cyan-text text-darken-3 main-title">Bucket</h4>
+                <h4 class="description">
+                    <span class="grey-text text-darken-4">
+                        The home for all those crazy dreams you want to achieve before
+                        <span class="italic-text">* dramatic pause *</span>
+                        <br>
+                        kick the bucket!
+                    </span>
+                </h4>
+            </div>
+        </div>
+
+        <div class="divider center-align divider-line"></div>
+
+        <div class="row button-section">
+            <div class="col s5 right-align">
+                <a href="#signupModal" class="waves-effect waves-light btn cyan darken-3 modal-trigger">Sign up</a>
+            </div>
+
+            <div class="col s2 center-align">
+                <p class="cyan-text text-darken-3 or-text">or</p>
+            </div>
+
+            <div class="col s5 left-align">
+                <a href="#loginModal" class="waves-effect waves-light btn cyan darken-3 modal-trigger">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div id="signupModal" class="modal">
+    <div class="modal-content">
+        {{> signup}}
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        {{> login}}
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat">Close</a>
+    </div>
+</div>

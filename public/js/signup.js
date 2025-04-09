@@ -16,7 +16,7 @@ const signupFormHandler = async (event) => {
         });
 
         if (response.ok) {
-            window.location.href = '/profile';
+            window.location.href = '/myList';
         } else {
             alert(response.statusText);
         }
