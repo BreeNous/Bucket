@@ -1,5 +1,9 @@
 
 
+.upload-button.hidden {
+    display: none !important;
+  }  
+
 /* Only targets the delete account modal */
 #deleteAccountModal {
     position: fixed;
@@ -142,5 +146,6 @@
     .resp-text-buttons-box {
         width: 100%;
     }
+    
 }
 
