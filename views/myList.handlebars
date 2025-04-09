@@ -23,7 +23,7 @@
   <div class="container">
 
     <div class="col s12 center-align" style="margin-bottom: 20px;">
-      <h6 class="cyan-text text-darken-3">Welcome back, {{name}}</h6>
+      <h6 class="cyan-text text-darken-3">{{name}}'s ideas</h6>
     </div>
 
     {{!-- top section for adding a new idea to your bucket list --}}
@@ -55,13 +55,15 @@
         <div class="responsive-idea" style="display: flex; align-items: center;">
 
           {{!-- Image Section --}}
-          <div id="image-container-{{BucketListItem.id}}">
+          <div id="image-container-{{BucketListItem.id}}" class="resp-image-cont">
             {{#if BucketListItem.image}}
-              <img src="/api/bucket/{{BucketListItem.id}}/image" alt="Bucket List Image" class="idea-image"
-                style="max-height: 200px;">
+              
+                <img src="/api/bucket/{{BucketListItem.id}}/image" alt="Bucket List Image" class="idea-image">
+                <img src="/api/bucket/{{BucketListItem.id}}/image" alt="" aria-hidden="true" class="idea-image-bg">
+              
             {{else}}
               <p id="no-image-text-{{BucketListItem.id}}" class="grey-text text-darken-1 idea-image"
-                style="width: 200px; height: 200px; border-style:dashed; display:flex; flex-direction:column; justify-content:center; align-items:center; margin: 0">
+                style="width: 100%; height: 100%; border-style:dashed; display:flex; flex-direction:column; justify-content:center; align-items:center; margin: 0">
                 Click the 
                 <span style="display: block;"><i class="fa-solid fa-image"></i> icon</span>
                  to add a pic!

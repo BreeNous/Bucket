@@ -1,8 +1,6 @@
-
-
 .upload-button.hidden {
     display: none !important;
-  }  
+}
 
 /* Only targets the delete account modal */
 #deleteAccountModal {
@@ -43,35 +41,68 @@
     overflow-wrap: break-word;
 }
 
+.resp-image-cont {
+    background-color: white;
+    display: flex; 
+    align-items: center; 
+    justify-content:center;
+    overflow:hidden;
+    position: relative;
+}
+.idea-image-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(5px);
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.idea-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+  }
+
 /* Small screens (mobile) */
 @media only screen and (max-width: 600px) {
     .responsive-desc {
-      max-width: 135px;
-      max-height: 115px;
-      overflow: scroll;
-      margin-top: 0px;
-      margin-bottom: 5px;
-     
-      font-size: small;
-      padding-right: 6px;
+        max-width: 135px;
+        max-height: 115px;
+        overflow: scroll;
+        margin-top: 0px;
+        margin-bottom: 5px;
+
+        font-size: small;
+        padding-right: 6px;
     }
+
     .resp-text-buttons-box {
         width: 100%;
     }
+
     .resp-btn-box {
-        margin-bottom: 10px;
+        margin-bottom: 12px;
     }
+
     .responsive-idea {
         height: 200px;
     }
-    .idea-image {
+
+    .resp-image-cont {
         height: 200px;
-        width: 200px;
+        min-width: 175px;
     }
+
     .responsive-title {
         font-size: medium !important;
-        margin-top: 10px;
+        margin-top: 18px;
     }
+
     .resp-buttons {
         width: 26px !important;
         height: 26px !important;
@@ -80,72 +111,86 @@
         justify-content: center !important;
         align-items: center !important;
     }
+
     .resp-icons {
         scale: 70% !important;
     }
-  }
-  
-  /* Medium screens (tablet) */
-  @media only screen and (min-width: 601px) and (max-width: 992px) {
+}
+
+/* Medium screens (tablet) */
+@media only screen and (min-width: 601px) and (max-width: 992px) {
     .responsive-desc {
-      font-size: x-small;
-      width: 130px;
-      margin-top: 0px;
-      margin-bottom: 5px;
-      margin-right: 10px;
+        font-size: x-small;
+        width: 130px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+        margin-right: 10px;
     }
+
     .responsive-idea {
-     margin-left: 0 !important;
-     height: 150px !important;
+        margin-left: 0 !important;
+        height: 150px !important;
     }
-    .idea-image {
-        max-width: 150px;
-        max-height: 150px;
+    .resp-image-cont {
+        height: 150px;
+        min-width: 150px;
     }
+
     .responsive-title {
         font-size: medium !important;
-        margin-top: 5px;
-        
+        margin-top: 15px;
+
     }
+
     .resp-text-buttons-box {
         max-height: 150px;
         width: 100%;
-        padding-bottom: 5px;
+        padding-bottom: 10px;
     }
+
     .resp-buttons {
         width: 22px !important;
         height: 22px !important;
         padding: 0 !important;
         min-width: 22px !important;
     }
+
     .resp-icons {
         scale: 55% !important;
     }
-  }
-  
-  /* Large screens (desktop and up) */
-  @media only screen and (min-width: 993px) {
+}
+
+/* Large screens (desktop and up) */
+@media only screen and (min-width: 993px) {
     .responsive-desc {
-      max-width: 300px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      max-height: 100px;
-      overflow: auto;
-      white-space: normal;
-      margin-right: 10px;
+        max-width: 300px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        max-height: 100px;
+        overflow: auto;
+        white-space: normal;
+        margin-right: 10px;
     }
-    .responsive-idea{
-        height: 200px;
+
+    .resp-image-cont {
+        height: 250px;
+        min-width: 240px;
     }
+
+    .responsive-idea {
+        height: 250px;
+    }
+
     .responsive-title {
-        margin-top: 10px;
+        margin-top: 20px;
     }
+
     .resp-btn-box {
         margin-bottom: 10px;
     }
+
     .resp-text-buttons-box {
         width: 100%;
     }
-    
-}
 
+}
