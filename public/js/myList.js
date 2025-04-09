@@ -21,7 +21,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       const imageContainer = document.querySelector(`#image-container-${item.id}`);
       const uploadButton = document.querySelector(`.upload-button[data-id="${item.id}"]`);
       if (item.image) {
-        imageContainer.innerHTML = `<img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="Bucket List Image" style="width: auto; max-height: 200px;">`;
+        imageContainer.innerHTML = `
+          <img src="/api/bucket/${id}/image?timestamp=${Date.now()}" alt="Bucket List Image" class="idea-image">
+          <img src="/api/bucket/${id}/image?timestamp=${Date.now()}" alt="" aria-hidden="true" class="image-image-bg">
+          `;
         uploadButton.classList.add("hidden");
       } else {
         uploadButton.classList.remove("hidden");
@@ -154,7 +157,6 @@ document.querySelector("#update-image-input").addEventListener("change", (event)
   }
 });
 
-// ✅ Delete image logic
 // ✅ Handle Delete Image (but only temporarily mark it until Save is pressed)
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("delete-image-button")) {
@@ -288,7 +290,7 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
           if (imageContainer) {
             imageContainer.innerHTML = `
               <p id="no-image-text-${id}" class="grey-text text-darken-1 idea-image"
-                 style="width: 200px; height: 200px; border-style: dashed; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0;">
+                 style="width: 100%; height: 100%; border-style: dashed; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0;">
                 Click the 
                 <span style="display: block;"><i class="fa-solid fa-image"></i> icon</span>
                 to add a pic!
