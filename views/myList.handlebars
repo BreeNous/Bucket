@@ -1,4 +1,5 @@
-<main style="background-image: url(/media/paperTexture.jpg); background-size: cover; min-height: 100vh; width: 100%; display:flex; flex-direction:column;">
+<main
+  style="background-image: url(/media/paperTexture.jpg); background-size: cover; min-height: 100vh; width: 100%; display:flex; flex-direction:column;">
 
   <header style="display: flex; align-items: center; justify-content:space-between;">
 
@@ -15,7 +16,7 @@
         <li><a href="#" id="logout-btn">Logout</a></li>
         <li><a href="#" id="delete-account-btn">Delete Account</a></li>
       </ul>
-      
+
     </div>
 
   </header>
@@ -48,40 +49,48 @@
 
     {{!-- ✅ Single row wrapper --}}
     <div class="row" style="margin-bottom: 40px;">
-  {{#if bucketlistitems.length}}
-    {{#each bucketlistitems as |BucketListItem|}}
+      {{#if bucketlistitems.length}}
+      {{#each bucketlistitems as |BucketListItem|}}
       <div class="col s12 m6" style="margin-bottom: 20px;">
-        
+
         <div class="responsive-idea" style="display: flex; align-items: center;">
 
           {{!-- Image Section --}}
           <div id="image-container-{{BucketListItem.id}}" class="resp-image-cont">
             {{#if BucketListItem.image}}
-              
-                <img src="/api/bucket/{{BucketListItem.id}}/image" alt="Bucket List Image" class="idea-image">
-                <img src="/api/bucket/{{BucketListItem.id}}/image" alt="" aria-hidden="true" class="idea-image-bg">
-              
-            {{else}}
-              <p id="no-image-text-{{BucketListItem.id}}" class="grey-text text-darken-1 idea-image"
-                style="width: 100%; height: 100%; border-style:dashed; display:flex; flex-direction:column; justify-content:center; align-items:center; margin: 0">
-                Click the 
-                <span style="display: block;"><i class="fa-solid fa-image"></i> icon</span>
-                 to add a pic!
 
-              </p>
+            <img src="/api/bucket/{{BucketListItem.id}}/image" alt="Bucket List Image" class="idea-image">
+            <img src="/api/bucket/{{BucketListItem.id}}/image" alt="" aria-hidden="true" class="idea-image-bg">
+
+            {{else}}
+            <p id="no-image-text-{{BucketListItem.id}}" class="grey-text text-darken-1 idea-image"
+              style="width: 100%; height: 100%; border-style:dashed; display:flex; flex-direction:column; justify-content:center; align-items:center; margin: 0">
+              Click the
+              <span style="display: block;"><i class="fa-solid fa-image"></i> icon</span>
+              to add a pic!
+
+            </p>
             {{/if}}
           </div>
 
           {{!-- text and buttons of idea --}}
-          <div style="display: flex; flex-direction: column; padding-left: 20px; height: 100%; justify-content:center;" class="resp-text-buttons-box grey lighten-5">
-            
+          <div style="display: flex; flex-direction: column; padding-left: 20px; height: 100%; justify-content:center;"
+            class="resp-text-buttons-box grey lighten-5">
+
             <div style="flex-grow: 1;">
               <label>
-                <input type="checkbox" class="completed-checkbox filled-in" data-id="{{BucketListItem.id}}"
-                  {{#if BucketListItem.completed}}checked{{/if}}>
-                <span style="font-size: large; color:black; line-height: 1;" class="responsive-title">{{BucketListItem.item}}</span>
+                <input type="checkbox" class="completed-checkbox filled-in" data-id="{{BucketListItem.id}}" {{#if
+                  BucketListItem.completed}}checked{{/if}}>
+                <span id="item-title-{{BucketListItem.id}}" class="responsive-title"
+                  style="font-size: large; color:black; line-height: 1;">
+                  {{BucketListItem.item}}
+                </span>
               </label>
-              <p class="responsive-desc">{{BucketListItem.description}}</p>
+
+              <p id="item-desc-{{BucketListItem.id}}" class="responsive-desc">
+                {{BucketListItem.description}}
+              </p>
+
             </div>
 
             <div style="display: flex; flex-direction: row;" class="resp-btn-box">
@@ -98,8 +107,10 @@
               </button>
 
               <form class="image-upload-form" data-id="{{BucketListItem.id}}">
-                <input type="file" class="image-upload-input" data-id="{{BucketListItem.id}}" accept="image/*" style="display: none;">
-                <button type="button" class="waves-effect waves-light btn cyan darken-3 white-text upload-button resp-buttons"
+                <input type="file" class="image-upload-input" data-id="{{BucketListItem.id}}" accept="image/*"
+                  style="display: none;">
+                <button type="button"
+                  class="waves-effect waves-light btn cyan darken-3 white-text upload-button resp-buttons"
                   data-id="{{BucketListItem.id}}"
                   style="display:flex; justify-content: center; align-items: center; height: 30px; width: 30px;">
                   <i class="fa-solid fa-image resp-icons" style="scale: 80%; pointer-events: none;"></i>
@@ -111,11 +122,12 @@
           </div>
         </div>
       </div>
-    {{/each}}
-  {{else}}
-    <p style="width: 100%; display:flex; align-items:center; justify-content:center;">Your Bucket list is empty, add some new ideas!</p>
-  {{/if}}
-</div> 
+      {{/each}}
+      {{else}}
+      <p style="width: 100%; display:flex; align-items:center; justify-content:center;">Your Bucket list is empty, add
+        some new ideas!</p>
+      {{/if}}
+    </div>
 
 
   </div> {{!-- End of container --}}

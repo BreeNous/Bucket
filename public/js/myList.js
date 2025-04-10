@@ -220,6 +220,8 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
   });
 
   if (response.ok) {
+    document.querySelector(`#item-title-${id}`).textContent = updatedItem;
+    document.querySelector(`#item-desc-${id}`).textContent = updatedDescription;
     console.log("✅ Successfully updated bucket list item.");
 
     // ✅ Now if there is a pending image to upload, do that too
