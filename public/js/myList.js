@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       const uploadButton = document.querySelector(`.upload-button[data-id="${item.id}"]`);
       if (item.image) {
         imageContainer.innerHTML = `
-          <img src="/api/bucket/${id}/image?timestamp=${Date.now()}" alt="Bucket List Image" class="idea-image">
-          <img src="/api/bucket/${id}/image?timestamp=${Date.now()}" alt="" aria-hidden="true" class="image-image-bg">
+          <img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="Bucket List Image" class="idea-image">
+          <img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="" aria-hidden="true" class="image-image-bg">
           `;
         uploadButton.classList.add("hidden");
       } else {
@@ -49,7 +49,12 @@ document.addEventListener("change", async (event) => {
     });
     if (response.ok) {
       const imageContainer = document.querySelector(`#image-container-${id}`);
-      imageContainer.innerHTML = `<img src="/api/bucket/${id}/image?timestamp=${Date.now()}" style="width: auto; max-height: 200px;">`;
+      const src = `/api/bucket/${id}/image?timestamp=${Date.now()}`;
+      imageContainer.innerHTML = `
+        <img src="${src}" alt="Bucket List Image" class="idea-image">
+        <img src="${src}" alt="" aria-hidden="true" class="idea-image-bg">
+      `;
+
       document.querySelector(`.upload-button[data-id="${id}"]`).classList.add("hidden");
     }
   }
