@@ -277,16 +277,27 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
 
         if (updatedData.image) {
           // ✅ If image now exists, show it and hide upload button
-          if (imageContainer) {
-            const timestamp = Date.now();
-            const imgSrc = `/api/bucket/${id}/image?timestamp=${timestamp}`;
+          const timestamp = Date.now();
+          const imgSrc = `/api/bucket/${id}/image?timestamp=${timestamp}`;
 
-            imageContainer.innerHTML = `
-              <img src="${imgSrc}" alt="Bucket List Image" class="idea-image">
-              <img src="${imgSrc}" alt="" aria-hidden="true" class="idea-image-bg">
-            `;
+          const mainImg = new Image();
+          mainImg.src = imgSrc;
+          mainImg.alt = "Bucket List Image";
+          mainImg.className = "idea-image";
 
-          }
+          mainImg.onload = () => {
+            const bgImg = document.createElement("img");
+            bgImg.src = imgSrc;
+            bgImg.alt = "";
+            bgImg.setAttribute("aria-hidden", "true");
+            bgImg.className = "idea-image-bg";
+
+            // Clear container and append both images
+            imageContainer.innerHTML = "";
+            imageContainer.appendChild(mainImg);
+            imageContainer.appendChild(bgImg);
+          };
+
           uploadButton.classList.add("hidden");
 
         } else {
