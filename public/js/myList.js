@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       const uploadButton = document.querySelector(`.upload-button[data-id="${item.id}"]`);
       if (item.image) {
         imageContainer.innerHTML = `
-          <img src="/api/bucket/${id}/image?timestamp=${Date.now()}" alt="Bucket List Image" class="idea-image">
-          <img src="/api/bucket/${id}/image?timestamp=${Date.now()}" alt="" aria-hidden="true" class="image-image-bg">
+          <img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="Bucket List Image" class="idea-image">
+          <img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="" aria-hidden="true" class="idea-image-bg">
           `;
         uploadButton.classList.add("hidden");
       } else {
@@ -49,7 +49,12 @@ document.addEventListener("change", async (event) => {
     });
     if (response.ok) {
       const imageContainer = document.querySelector(`#image-container-${id}`);
-      imageContainer.innerHTML = `<img src="/api/bucket/${id}/image?timestamp=${Date.now()}" style="width: auto; max-height: 200px;">`;
+      const src = `/api/bucket/${id}/image?timestamp=${Date.now()}`;
+      imageContainer.innerHTML = `
+        <img src="${src}" alt="Bucket List Image" class="idea-image">
+        <img src="${src}" alt="" aria-hidden="true" class="idea-image-bg">
+      `;
+
       document.querySelector(`.upload-button[data-id="${id}"]`).classList.add("hidden");
     }
   }
@@ -215,6 +220,8 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
   });
 
   if (response.ok) {
+    document.querySelector(`#item-title-${id}`).textContent = updatedItem;
+    document.querySelector(`#item-desc-${id}`).textContent = updatedDescription;
     console.log("✅ Successfully updated bucket list item.");
 
     // ✅ Now if there is a pending image to upload, do that too
@@ -277,12 +284,27 @@ document.querySelector("#update-form").addEventListener("submit", async (event) 
 
         if (updatedData.image) {
           // ✅ If image now exists, show it and hide upload button
-          if (imageContainer) {
-            imageContainer.innerHTML = `
-              <img src="/api/bucket/${id}/image?timestamp=${new Date().getTime()}" 
-                alt="Bucket List Image" style="max-height: 200px; width: auto;">
-            `;
-          }
+          const timestamp = Date.now();
+          const imgSrc = `/api/bucket/${id}/image?timestamp=${timestamp}`;
+
+          const mainImg = new Image();
+          mainImg.src = imgSrc;
+          mainImg.alt = "Bucket List Image";
+          mainImg.className = "idea-image";
+
+          mainImg.onload = () => {
+            const bgImg = document.createElement("img");
+            bgImg.src = imgSrc;
+            bgImg.alt = "";
+            bgImg.setAttribute("aria-hidden", "true");
+            bgImg.className = "idea-image-bg";
+
+            // Clear container and append both images
+            imageContainer.innerHTML = "";
+            imageContainer.appendChild(mainImg);
+            imageContainer.appendChild(bgImg);
+          };
+
           uploadButton.classList.add("hidden");
 
         } else {
