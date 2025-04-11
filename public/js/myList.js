@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       if (item.image) {
         imageContainer.innerHTML = `
           <img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="Bucket List Image" class="idea-image">
-          <img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="" aria-hidden="true" class="image-image-bg">
+          <img src="/api/bucket/${item.id}/image?timestamp=${Date.now()}" alt="" aria-hidden="true" class="idea-image-bg">
           `;
         uploadButton.classList.add("hidden");
       } else {
