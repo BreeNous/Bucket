@@ -1,30 +1,37 @@
 <main style="height: 100% !important;">
-    
+
   <div class="row valign-wrapper" style="z-index: 1; height: 100% !important;">
     <!--Login section-->
 
-      <div class="col s12" style="height: 100% !important;">
-        <div class="card-panel" style="background-color: rgba(255, 255, 255, 0.75); height: 100% !important;">
-                <h4 style="display:flex; justify-content:center;">Login</h4>
+    <div class="col s12" style="height: 100% !important;">
+      <div class="card-panel" style="background-color: rgba(255, 255, 255, 0.75); height: 100% !important;">
+        <h4 style="display:flex; justify-content:center;">Login</h4>
 
-                <form class="form login-form">
-                  <div class="form-group" style="padding-top: 15px !important;">
-                    <label for="email-login"><span class="grey-text text-darken-4">email:</span></label>
-                    <input class="form-input" type="text" id="email-login" />
-                  </div>
-                  <div class="form-group" style="padding-top: 15px !important;">
-                    <label for="password-login"><span class="grey-text text-darken-4">password:</span></label>
-                    <input class="form-input" type="password" id="password-login" />
-                  </div>
-                  <div class="form-group" style="padding-top: 15px !important;">
-                    <button class="waves-effect waves-light btn cyan darken-3" type="submit"><span class="white-text">Login</span></button>
-                  </div>
-                </form>
+        <form class="form login-form">
+          <div class="form-group" style="padding-top: 15px !important;">
+            <label for="email-login"><span class="grey-text text-darken-4">email:</span></label>
+            <input class="form-input" type="text" id="email-login" />
+          </div>
+          <div class="form-group" style="padding-top: 15px !important;">
+            <label for="password-login"><span class="grey-text text-darken-4">password:</span></label>
+            <input class="form-input" type="password" id="password-login" />
+          </div>
+          <div class="form-group" style="padding-top: 15px !important;">
+            <button class="waves-effect waves-light btn cyan darken-3" type="submit"><span
+                class="white-text">Login</span></button>
+          </div>
 
-        </div>
+          <p id="login-error" class="red-text text-darken-2" style="margin-top: 10px;"></p>
+          <a id="reset-link" href="#" style="display: none; color: #00796b; text-decoration: underline;">Forgot
+            password?</a>
+
+
+        </form>
+
       </div>
-    
+    </div>
+
   </div>
 
-<script src="./js/login.js"></script>
+  <script src="./js/login.js"></script>
 </main>

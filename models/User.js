@@ -36,6 +36,15 @@ User.init(
         len: [8],
       },
     },
+    resetToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    resetTokenExpires: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    
   },
   {
     // Hooks are used so that if a user is created or updated, the password is encrypted before being stored in the database.

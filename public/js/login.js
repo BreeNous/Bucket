@@ -18,14 +18,28 @@ const loginFormHandler = async (event) => {
     });
 
     if (response.ok) {
-      // If successful, redirect the browser to the myList page
       window.location.href = '/myList';
     } else {
       const errorData = await response.json();
-      alert(errorData.message || "Invalid login.");
-
-
+      const errorEl = document.querySelector('#login-error');
+      const resetLink = document.querySelector('#reset-link');
+    
+      if (errorEl) {
+        errorEl.textContent = errorData.message || 'Login failed. Try again.';
+      }
+      if (resetLink) {
+        resetLink.style.display = 'inline-block';
+        resetLink.onclick = () => {
+          const email = document.querySelector('#email-login').value.trim();
+          if (email) {
+            window.location.href = `/reset-password?email=${encodeURIComponent(email)}`;
+          } else {
+            alert("Please enter your email before resetting.");
+          }
+        };
+      }
     }
+    
   }
 };
 

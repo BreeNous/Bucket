@@ -47,7 +47,7 @@ app.use("/private_uploads", express.static(path.join(__dirname, "private_uploads
 app.use(routes);
 
 // Starts the server to begin listening
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ alter: true }).then(() => {
   app.listen(PORT, () =>
     console.log(`Now listening on http://localhost:${PORT}`)
   );
