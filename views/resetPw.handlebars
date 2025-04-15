@@ -5,6 +5,12 @@
       <input type="password" id="new-password" required />
       <label for="new-password">New Password</label>
     </div>
+
+    <label style="display: flex; align-items: center; gap: 6px; margin-bottom: 16px;">
+      <input type="checkbox" class="toggle-password" data-target="new-password" />
+      <span class="grey-text">Show Password</span>
+    </label>
+
     <button class="btn cyan darken-3 white-text" type="submit">Update Password</button>
     <p id="reset-feedback" style="margin-top: 10px;"></p>
   </form>

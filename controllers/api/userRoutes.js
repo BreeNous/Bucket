@@ -5,29 +5,33 @@ const withAuth = require('../../utils/auth');
 // post route for user data to landing / checking if user already exists
 router.post('/', async (req, res) => {
   try {
-    // 🧠 Check for existing user first
     const existingUser = await User.findOne({ where: { email: req.body.email } });
-
     if (existingUser) {
       return res.status(409).json({ message: 'An account already exists for this email. Please log in.' });
     }
 
-    // 👤 Create new user
-    const userData = await User.create(req.body);
+    const userData = await User.create(req.body); // Sequelize will validate here
 
-    // ✅ Save session
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
-
       res.status(200).json(userData);
     });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json(err);
+  // ✅ In userRoutes.js
+} catch (err) {
+  console.error(err);
+
+  // Check for Sequelize validation error
+  if (err.name === 'SequelizeValidationError') {
+    return res.status(400).json({ message: 'Your password must be at least 8 characters long.' });
   }
+
+  res.status(500).json({ message: 'Signup failed. Please try again.' });
+}
+
 });
+
 
 
 // post route for login

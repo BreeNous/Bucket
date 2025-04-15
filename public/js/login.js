@@ -43,6 +43,17 @@ const loginFormHandler = async (event) => {
   }
 };
 
+document.querySelectorAll('.toggle-password')?.forEach(toggle => {
+  toggle.addEventListener('change', () => {
+    const targetId = toggle.getAttribute('data-target');
+    const input = document.getElementById(targetId);
+    if (input) {
+      input.type = toggle.checked ? 'text' : 'password';
+    }
+  });
+});
+
+
 document
   .querySelector('.login-form')
   .addEventListener('submit', loginFormHandler);

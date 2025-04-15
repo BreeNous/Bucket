@@ -18,3 +18,5 @@ const logoutButton = document.querySelector('#logOutButton');
 if (logoutButton) {
   logoutButton.addEventListener('click', logout);
 }
+
+
