@@ -21,3 +21,14 @@ document
       feedback.textContent = `❌ ${data.message || 'Failed to update password'}`;
     }
   });
+
+  document.querySelectorAll('.toggle-password')?.forEach(toggle => {
+    toggle.addEventListener('change', () => {
+      const targetId = toggle.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      if (input) {
+        input.type = toggle.checked ? 'text' : 'password';
+      }
+    });
+  });
+  
