@@ -33,9 +33,21 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [8],
-      },
+        len: {
+          args: [8, 100],
+          msg: "Password must be at least 8 characters long."
+        },
+        isStrong(value) {
+          const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W)[^\s]{8,}$/;
+          if (!strongRegex.test(value)) {
+            throw new Error(
+              "Password must contain at least one uppercase, one lowercase, one special character, and no spaces."
+            );
+          }
+        }
+      }
     },
+    
     resetToken: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -44,7 +56,7 @@ User.init(
       type: DataTypes.DATE,
       allowNull: true,
     },
-    
+
   },
   {
     // Hooks are used so that if a user is created or updated, the password is encrypted before being stored in the database.
@@ -59,7 +71,7 @@ User.init(
         }
         return updatedUserData;
       }
-      
+
     },
     sequelize,
     timestamps: false,
