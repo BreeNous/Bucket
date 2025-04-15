@@ -2,21 +2,33 @@ const router = require('express').Router();
 const { User, BucketListItem } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-// post route for user data to landing
+// post route for user data to landing / checking if user already exists
 router.post('/', async (req, res) => {
   try {
+    // 🧠 Check for existing user first
+    const existingUser = await User.findOne({ where: { email: req.body.email } });
+
+    if (existingUser) {
+      return res.status(409).json({ message: 'An account already exists for this email. Please log in.' });
+    }
+
+    // 👤 Create new user
     const userData = await User.create(req.body);
 
+    // ✅ Save session
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
 
       res.status(200).json(userData);
     });
+
   } catch (err) {
-    res.status(400).json(err);
+    console.error(err);
+    res.status(500).json(err);
   }
 });
+
 
 // post route for login
 router.post('/login', async (req, res) => {
@@ -98,5 +110,7 @@ router.get('/session-check', async (req, res) => {
     res.status(500).json({ message: "Error fetching sessions." });
   }
 });
+
+
 
 module.exports = router;

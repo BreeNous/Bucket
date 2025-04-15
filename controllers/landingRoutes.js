@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { BucketListItem, User } = require('../models');
 const withAuth = require('../utils/auth');
+const { Op } = require('sequelize');
 
 router.get('/', async (req, res) => {
   try {
@@ -69,6 +70,20 @@ router.get('/myList', withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
+});
+
+// Serve reset form
+router.get('/reset-password/:token', async (req, res) => {
+  const user = await User.findOne({
+    where: {
+      resetToken: req.params.token,
+      resetTokenExpires: { [Op.gt]: Date.now() }
+    }
+  });
+
+  if (!user) return res.status(400).send('Invalid or expired token');
+
+  res.render('resetPw', { token: req.params.token });
 });
 
 module.exports = router;
